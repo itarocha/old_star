@@ -1,0 +1,55 @@
+Deploy no Tomcat externo
+
+Jogar o .war no /webapps
+
+Para gerar war
+
+Run As / maven build...
+
+Titulo: cobranca-war
+Goals: clean package
+
+Botão direito: Refresh
+Criou uma série de arquivos no target
+
+
+
+No pom.xml, <build>, adicionar
+
+<finalName>${project.artifactId}></finalName>
+
+Run As "cobranca-war"
+
+Agora virou target/cobranca.war
+
+Copiar para tomcat/webapps
+
+Verificar o opt/tomcat/webapps/projeto/WEB-INF/classes/application.properties
+
+rodar o tomcat 
+./startup.sh
+
+Rodou e gerou um log (tomcat/logs)
+
+$ tail -f catalina.out
+
+O tomcat conhece a aplicação pelo contexto
+localhost:8080/cobranca/titulos
+
+
+Mas dá problema dos recursos estáticos
+
+Os links devem ter th:href="@{...}" no LayoutPadrao.html
+
+Os links devem mudar de
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+para
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+
+<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+Links
+th:href="@{/titulos/novo}"
+
+Form action
+th:action="@{/titulos}"

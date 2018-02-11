@@ -1,0 +1,34 @@
+package br.itarocha.star;
+
+public class Ponto {
+	public int angulo;
+	public float defasagem;
+	private double x;
+	private double y;
+	public String nome;
+	
+	public Ponto(int angulo) {
+		defasagem = 0;
+	}
+	
+	public Ponto(int angulo, String nome, float defasagem) {
+		this.angulo = angulo;
+		this.nome = nome;
+		this.defasagem = defasagem;
+	}
+	
+	public void setAngulo(int angulo) {
+		this.angulo = angulo;
+	}
+	
+	public double getX() {
+    	return Math.sin(angulo * Math.PI / 180 - defasagem);
+	}
+	
+	public double getY() {
+		return Math.cos(angulo * Math.PI / 180 - defasagem);
+	}
+	
+	
+	
+}

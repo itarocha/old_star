@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	
+	<!-- <link rel="stylesheet" type="text/css" th:href="@{/css/complemento.css}"/> -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/new.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.standalone.min.css}"/>
+
+	<link rel='stylesheet' th:href="@{/js/fullcalendar/fullcalendar.min.css}" />
+	<script th:src="@{/js/vendor/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{/js/vendor/moment.min.js}"></script>
+	<script th:src="@{/js/vendor/chart.min.js}"></script>
+	<script th:src='@{/js/fullcalendar/fullcalendar.js}'></script>	
+	<script th:src='@{/js/fullcalendar/locale/pt-br.js}'></script>
+	<title>Tenda do Visitante</title>
+</head>
+<body>
+
+	<section layout:include="layouts/Cabecalho"></section>
+	
+	
+	<div class="container-fluid">
+          <!-- yield('pesquisa') --> 
+      	<h2 class="page-header" style="text-transform: uppercase;"><section layout:fragment="titulo"></section></h2>
+        <!-- include('partials.mensagens') -->
+        
+        <!-- http://docs.spring.io/spring-security/site/docs/current/reference/html/servletapi.html -->
+        
+        <!-- 
+        <span sec:authorize="isAuthenticated()">
+                | Logged user: <span sec:authentication="name"></span> |
+                Roles: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/logout}">Sign Out</a>
+                <span sec:authentication="principal.username"></span>
+        </span>
+            
+		<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>                    
+		<h4 th:inline="text">Hello [[${#httpServletRequest.userPrincipal}]]!</h4>                    
+        
+		<div sec:authorize="isAuthenticated()">
+		  AUTENTICADO
+		</div>
+		<div sec:authorize="hasAuthority('ADMIN')">
+		  ADMIN
+		</div>
+		<div sec:authorize="hasAuthority('USER')">
+		  USER
+		</div>        
+		<div sec:authorize="hasAuthority('VISITANTE')">
+		  VISITANTE
+		</div>        
+        Logged user: <span sec:authentication="name">Bob</span>
+        -->
+          
+		<section layout:fragment="conteudo">
+			<p>Conteúdo Principal</p>
+		</section>
+ 		
+	</div>
+	
+<!-- 	
+	  <div class="content">
+      <div class="main-content">
+        <div class="page-header">
+          // yield('pesquisa') 
+      	  <h3><section layout:fragment="titulo"></section></h3>
+      	</div>
+        // include('partials.mensagens') 
+		<section layout:fragment="conteudo">
+			<p>Conteúdo Principal</p>
+		</section>
+        </div>
+    </div>
+ -->	
+	
+	
+	
+	<script th:src="@{/js/vendor/bootstrap.min.js}"></script>
+	<script th:src="@{/js/vendor/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/js/vendor/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/js/vendor/jquery.maskMoney.min.js}"></script>
+	<script th:src="@{/js/vendor/jquery.maskedinput.js}"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ 		layout:decorator="layouts/LayoutPadrao">
+
+<head>
+	<title>Dados Pessoais</title>
+</head>
+
+<section layout:fragment="titulo">Dados Pessoais</section>
+
+<section layout:fragment="conteudo">
+
+	<form method="POST" th:action="@{/mapa}" th:object="${model}">
+
+		<div layout:include="layouts/MensagemGeral"></div>
+		<div layout:include="layouts/MensagemErro"></div>
+
+		<div class="row">
+			<div class="form-group col-md-4" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+				<label for="nome">Nome:</label>
+				<input type="text" class="form-control" id="pessoa_nome" name="pessoa_nome" th:field="*{nome}"></input>
+			</div>
+			<div class="form-group col-md-2">
+				<label for="dataNascimento" th:classappend="${#fields.hasErrors('dataNascimento')} ? has-error">Data de Nascimento:</label>
+				<input type="text" class="form-control formatoData" id="dataNascimento" name="dataNascimento" th:field="*{dataNascimento}"
+				 data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR" data-date-autoclose="true" data-date-today-highlight="true"
+				 data-date-orientation="bottom"></input>
+			</div>
+			<div class="form-group col-md-2">
+				<label for="horaNascimento">Hora de Nascimento</label>
+				<input type="text" class="form-control fmthora" id="horaNascimento" name="horaNascimento" th:field="*{horaNascimento}"></input>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label for="endereco_cidade">Cidade</label>
+				<input type="text" class="form-control" id="cidade" name="cidade" th:field="*{cidade}"></input>
+			</div>
+
+			<div class="form-group col-md-4">
+				<label for="endereco_cidade">UF:</label>
+				<select class="form-control" id="uf" name="uf" th:field="*{uf}">
+					<option th:each="uf : ${todosUF}" th:value="${uf}" th:text="${uf.descricao}"></option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-md-6">
+				<button type="submit" class="btn btn-primary">Gerar</button>
+				<a class="btn btn-default" role="button" th:href="@{/solares}">Voltar</a>
+			</div>
+		</div>
+
+	</form>
+
+
+	<script>
+
+		$(function () {
+
+			$(".nav-pills a").click(function () {
+				$(this).tab('show');
+			});
+
+			var rowCount = $("#horarios tr").length;
+
+			$("#pessoa_nome").focus();
+			$(".formatoData").mask("99/99/9999");
+			//$("#cpf").mask("999.999.999-99");
+			//$("#endereco_cep").mask("99999-999");
+			$(".fmthora").mask("99:99");
+			//$(".horarioid").attr("name","horarios[].id");
+			//$(".fmthora").attr("name","horarios[].horario");
+
+			//$(".horarioid").removeAttr("id");
+			//$(".fmthora:text").removeAttr("id");
+			// https://v4-alpha.getbootstrap.com/components/navs/#fade-effect
+
+			$("#interessadoPg").change(function () {
+				configuraDisplayPg();
+			});
+
+			$("#possuiAcompanhante").change(function () {
+				configuraDisplay();
+			});
+
+			$("#filhosMenores").change(function () {
+				configuraDisplay();
+			});
+
+		});
+	</script>
+
+</section>
+
+</html>
