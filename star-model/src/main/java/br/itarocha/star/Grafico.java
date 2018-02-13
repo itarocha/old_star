@@ -57,10 +57,10 @@ class Grafico extends JPanel {
         */
     }
     
-    private void AtualizarGrauDefasagem(int angulo) {
+    private void atualizarGrauDefasagem(int angulo) {
     	GRAU_DEFASAGEM = anguloToRad(angulo);
     }
-    
+
     @Override
     public void paintComponent(Graphics gg) {
         super.paintComponent(gg);
@@ -139,7 +139,7 @@ class Grafico extends JPanel {
     		System.out.println("A DEFASAGEM É DE "+intGrauDef);
     	}
     	
-    	AtualizarGrauDefasagem(90+intGrauDef);
+    	atualizarGrauDefasagem(90+intGrauDef);
     	
     	/*
     	g.setColor(Color.blue);

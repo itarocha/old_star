@@ -3,12 +3,11 @@ package br.itarocha.star;
 public class Ponto {
 	public int angulo;
 	public float defasagem;
-	private double x;
-	private double y;
 	public String nome;
 	
 	public Ponto(int angulo) {
-		defasagem = 0;
+		defasagem = 90;
+		this.angulo = angulo;
 	}
 	
 	public Ponto(int angulo, String nome, float defasagem) {
