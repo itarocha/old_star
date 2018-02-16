@@ -1,14 +1,16 @@
 package br.itarocha.star.model;
 
-public class Planeta {
+public class OldPlaneta {
 	private int id;
 	private String sigla;
 	private String nome;
+	private String letra;
 
-	public Planeta(int id, String sigla, String nome){
+	public OldPlaneta(int id, String sigla, String nome, String letra){
 		this.id = id;
 		this.sigla = sigla;
 		this.nome = nome;
+		this.letra = letra;
 	}
 	
 	public String getSigla() {
@@ -33,5 +35,13 @@ public class Planeta {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getLetra() {
+		return letra;
+	}
+
+	public void setLetra(String letra) {
+		this.letra = letra;
 	}
 }

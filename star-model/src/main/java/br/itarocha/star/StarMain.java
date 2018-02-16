@@ -44,7 +44,8 @@ public class StarMain {
 			Mapa mapa = m.buildMapa(nome, data, hora, cidade, uf);
 			if (mapa != null) {
 	    		String json = new DecoradorMapa(mapa).getJSON();
-	    		Grafico.build(mapa);
+	    		//Grafico.build(mapa);
+	    		ChartPainter cp = new ChartPainter(mapa);
 	    		System.out.println(json);
 			}
 		} catch (Exception e) {
@@ -69,72 +70,7 @@ public class StarMain {
 		return retorno;
 	}
 	
-	/*
-	public void http(String url, String body) throws ClientProtocolException, IOException  {
-
-		 
-		 HttpClient httpclient = HttpClient.createDefault();
-		 HttpPost httppost = new HttpPost("http://www.a-domain.com/foo/");
-
-		 // Request parameters and other properties.
-		 List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-		 params.add(new BasicNameValuePair("param-1", "12345"));
-		 params.add(new BasicNameValuePair("param-2", "Hello!"));
-		 httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-		 //Execute and get the response.
-		 HttpResponse response = httpclient.execute(httppost);
-		 HttpEntity entity = response.getEntity();
-
-		 if (entity != null) {
-		     InputStream instream = entity.getContent();
-		     try {
-		         // do something useful
-		     } finally {
-		         instream.close();
-		     }
-		 }		 
-		 
-		 
-		 
-         // http://www.devmedia.com.br/trabalhando-com-json-em-java-o-pacote-org-json/25480		 
-		 
-		 String postUrl="www.site.com";// put in your url
-		 
-		 HttpClient httpClient = new DefaultHttpClient();  
-		 Gson gson= new Gson();
-		 HttpPost post = new HttpPost(postUrl);
-		 Pojo pojo1 = new Pojo();
-		 StringEntity postingString = null;
-		 postingString = new StringEntity(gson.toJson(pojo1));
-		 post.setEntity(postingString);
-		 post.setHeader("Content-type", "application/json");
-
-		 HttpResponse  response = httpClient.execute(post);
-		 
-		 
-	        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-	            HttpPost request = new HttpPost(url);
-	            StringEntity params = new StringEntity(body);
-	            request.addHeader("content-type", "application/json");
-	            request.setEntity(params);
-	            HttpResponse result = httpClient.execute(request);
-	            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-
-	            com.google.gson.Gson gson = new com.google.gson.Gson();
-	            Response respuesta = gson.fromJson(json, Response.class);
-
-	            System.out.println(respuesta.getExample());
-	            System.out.println(respuesta.getFr());
-
-	        } catch (IOException ex) {
-	        }
-	        return null;
-	        
-	    }
-	 */
-	
-	}
+}
 /*
 Tempo Sideral 23:36:35
 SOL 07 Ca 39.47
@@ -172,3 +108,5 @@ Nod 20° Li 25 R
 Lil 22° Le 15
 Qui 14° Pe 52 R
 */
+
+

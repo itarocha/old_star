@@ -51,7 +51,7 @@ public class DecoradorMapa {
     							mapa.getData(),
     							mapa.getHora(),
     							
-    							new DecimalFormat("#.#").format(mapa.getDeltaTSec()),
+    							new DecimalFormat("#.####").format(mapa.getDeltaTSec()),
     							new DecimalFormat("#.######").format(mapa.getJulDay()),
     							
     							Funcoes.grau(latitude)+lat,
@@ -59,39 +59,23 @@ public class DecoradorMapa {
     			);
     	
 		return retorno;
-		
 		// VEJA MAIS TARDE
 		//System.out.println("Ayanamsa: " + CartaUtil.grau(ayanamsa) + " (" + sw.swe_get_ayanamsa_name(SID_METHOD) + ")");
 		///////System.out.println("Ascendente: " + CartaUtil.grauNaCasa(casas[1])+" "+signos[signoAscendente-1]);
     }
 	
-    
-    /*
-    {"planetas_signos":[
-      {"planeta":"sol", "signo":"ca", "gg":"07", "mm":"39"},
-      {"planeta":"lua", "signo":"aq", "gg":"07", "mm":"27"},
-      {"planeta":"mer", "signo":"le", "gg":"00", "mm":"56"},
-      {"planeta":"ven", "signo":"ge", "gg":"20", "mm":"08"},
-      {"planeta":"mar", "signo":"le", "gg":"00", "mm":"25"},
-      {"planeta":"jup", "signo":"cp", "gg":"02", "mm":"52"},
-      {"planeta":"sat", "signo":"ge", "gg":"13", "mm":"39"},
-      {"planeta":"ura", "signo":"li", "gg":"14", "mm":"13"},
-      {"planeta":"net", "signo":"sg", "gg":"03", "mm":"00"},
-      {"planeta":"plu", "signo":"vi", "gg":"29", "mm":"25"}
-    ]}
-    */
 	private String displayPlanetasNosSignos(){
 		String retorno = "";
 		
 		//System.out.println("\nPLANETAS");
 		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 			retorno += String.format("{\"planeta\":\"%s\", \"signo\":\"%s\", \"grau\": \"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
-					pp.getSiglaPlaneta(), 	// Planeta
-					pp.getNomeSigno(),		// Signo
+					pp.getEnumPlaneta().getSigla(), 	// Planeta
+					pp.getEnumSigno().getSigla(),		// Signo
 					pp.getGrau(),
-					pp.getGnc(),					// gg 
-					pp.getM(),					// mm 
-					pp.getS()					// ss
+					pp.getGnc(),			// gg 
+					pp.getM(),				// mm 
+					pp.getS()				// ss
 					);
 		}
 		retorno =  "\"planetas_signos\":[\n"+
@@ -105,11 +89,11 @@ public class DecoradorMapa {
 		
 		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 			retorno += String.format("{\"planeta\":\"%s\", \"casa\":\"%02d\", \"grau\":\"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
-					pp.getSiglaPlaneta(), 	// Planeta
-					(int)pp.getCasa(),		   // Casa
+					pp.getEnumPlaneta().getSigla(), 	// Planeta
+					pp.getCasa(),		// Casa
 					pp.getGrau(),
-					pp.getGnc(),					// gg 
-					pp.getM(),					// mm 
+					pp.getGnc(),			// gg 
+					pp.getM(),				// mm 
 					pp.getS()
 					);
 		}
@@ -131,7 +115,7 @@ public class DecoradorMapa {
 			
 			retorno += String.format("{\"casa\":\"%02d\", \"signo\":\"%s\", \"grau\": \"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
 					c.getNumero(), 	// Casa
-					c.getSigno(),	// Signo
+					c.getEnumSigno().getSigla(),	// Signo
 					g,
 					gms[0],			// gg 
 					gms[1],			// mm 
@@ -151,8 +135,8 @@ public class DecoradorMapa {
 			PlanetaAspecto pB = ite.getPlanetaB();
 			
 			retorno += String.format("{\"planeta_origem\":\"%s\", \"planeta_destino\":\"%s\", \"aspecto\":\"%s\"},\n",
-					pA.getSigla(), 
-					pB.getSigla(),
+					pA.getEnumPlaneta().getSigla(), 
+					pB.getEnumPlaneta().getSigla(),
 					ite.getAspecto()
 					);
 		}

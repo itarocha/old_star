@@ -3,14 +3,10 @@ package com.itarocha.starweb.service;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.itarocha.starweb.model.Casa;
 import com.itarocha.starweb.model.Interpretacao;
@@ -23,7 +19,7 @@ import com.itarocha.starweb.model.TipoAspecto;
 import com.itarocha.starweb.model.TipoPlaneta;
 import com.itarocha.starweb.model.TipoSigno;
 import com.itextpdf.io.font.FontConstants;
-import com.itextpdf.kernel.colors.Color;
+//import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -35,6 +31,8 @@ import com.itextpdf.layout.property.TextAlignment;
 
 import br.itarocha.star.Mapa;
 import br.itarocha.star.model.Cuspide;
+import br.itarocha.star.model.EnumPlaneta;
+import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
 import br.itarocha.star.model.PlanetaAspecto;
 import br.itarocha.star.model.PlanetaPosicao;
@@ -59,7 +57,7 @@ public class GeradorPdfService {
 		 key = "";
 		 for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 			 
-			 if(!"sol".equalsIgnoreCase(pp.getSiglaPlaneta())) continue;
+			 if(!"sol".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
 			 
 			 SignoSolar ss = servico.findSignoSolar("xx");
 			 key = "O Signo Solar";
@@ -72,8 +70,8 @@ public class GeradorPdfService {
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
 			 }
 			 
-			 String signo = TipoSigno.getByString(pp.getNomeSigno());
-			 ss = servico.findSignoSolar(pp.getNomeSigno());
+			 String signo = TipoSigno.getByString(pp.getEnumSigno().getSigla());
+			 ss = servico.findSignoSolar(pp.getEnumSigno().getSigla());
 			 key = String.format("%s", signo);
 			 if (ss != null) {
 				 map.put(key, ss.getTexto());
@@ -89,14 +87,14 @@ public class GeradorPdfService {
 		 key = "";
 		 for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 			 
-			 if("nor".equalsIgnoreCase(pp.getSiglaPlaneta())) continue;
-			 if("sol".equalsIgnoreCase(pp.getSiglaPlaneta())) continue;
+			 if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
+			 if("sol".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
 
 			 
 			 // Apresentação
-			 PlanetaSigno ps = servico.findPlanetaSigno(pp.getSiglaPlaneta(), pp.getNomeSigno());
-			 ps = servico.findPlanetaSigno(pp.getSiglaPlaneta(), "xx");
-			 String planeta = TipoPlaneta.getByString(pp.getSiglaPlaneta());
+			 PlanetaSigno ps = servico.findPlanetaSigno(pp.getEnumPlaneta().getSigla(), pp.getEnumPlaneta().getSigla());
+			 ps = servico.findPlanetaSigno(pp.getEnumPlaneta().getSigla(), "xx");
+			 String planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
 			 key = String.format("%s nos Signos", planeta);
 			 if (ps != null) {
 				 map.put(key, ps.getTexto());
@@ -106,16 +104,16 @@ public class GeradorPdfService {
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
 			 }
 			 
-			 ps = servico.findPlanetaSigno(pp.getSiglaPlaneta(), pp.getNomeSigno());
+			 ps = servico.findPlanetaSigno(pp.getEnumPlaneta().getSigla(), pp.getEnumSigno().getSigla() );
 			 //key = String.format("%s.%s", pp.getSiglaPlaneta(), pp.getNomeSigno());
-			 planeta = TipoPlaneta.getByString(pp.getSiglaPlaneta());
-			 String signo = TipoSigno.getByString(pp.getNomeSigno());
+			 planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
+			 String signo = TipoSigno.getByString(pp.getEnumSigno().getSigla());
 			 key = String.format("%s em %s", planeta, signo);
 			 if (ps != null) {
 				 map.put(key, ps.getTexto());
 				 retorno.add(this.tratarParagrafos(key, ps.getTexto()));
 			 } else {
-				 if (!"sol".equalsIgnoreCase( pp.getSiglaPlaneta() ) ) {
+				 if (!"sol".equalsIgnoreCase( pp.getEnumPlaneta().getSigla() ) ) {
 					 map.put(key, NOT_FOUND);
 					 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
 				 }
@@ -150,11 +148,11 @@ public class GeradorPdfService {
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
 			 }
 			 
-			 String _key = String.format("%s.%02d", c.getSigno(), c.getNumero());
-			 String signo = TipoSigno.getByString(c.getSigno());
+			 String _key = String.format("%s.%02d", c.getEnumSigno().getSigla(), c.getNumero());
+			 String signo = TipoSigno.getByString(c.getEnumSigno().getSigla());
 			 String casa = Casa.getByNumero(c.getNumero());
 			 key = String.format("%s na Cúspide da %s Casa", signo, casa);
-			 mc = servico.findCuspide(c.getSigno(), c.getNumero());
+			 mc = servico.findCuspide(c.getEnumSigno().getSigla(), c.getNumero());
 			 if (mc != null) {
 				 map.put(key, mc.getTexto());
 				 retorno.add(this.tratarParagrafos(key, mc.getTexto()));
@@ -167,15 +165,15 @@ public class GeradorPdfService {
 		// PLANETAS NAS CASAS
 		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 			 
-			 if("nor".equalsIgnoreCase(pp.getSiglaPlaneta())) continue;
+			 if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
 		 
 			 //key = String.format("%s.%02d", pp.getSiglaPlaneta(), (int)pp.getCasa());
 			 
-			 String planeta = TipoPlaneta.getByString(pp.getSiglaPlaneta());
+			 String planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
 			 String casa = Casa.getByNumero((int)pp.getCasa());
 			 
 			 key = String.format("%s na %s Casa", planeta, casa);
-			 PlanetaCasa pc = servico.findPlanetaCasa(pp.getSiglaPlaneta(), (int)pp.getCasa());
+			 PlanetaCasa pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), pp.getCasa());
 			 if (pc != null) {
 				 map.put(key, pc.getTexto());
 				 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
@@ -192,12 +190,12 @@ public class GeradorPdfService {
 			
 			//key = String.format("%s.%s.%s", pA.getSigla(), ia.getAspecto(), pB.getSigla() );
 			
-			String planeta1 = TipoPlaneta.getByString(pA.getSigla());
-			String planeta2 = TipoPlaneta.getByString(pB.getSigla());
+			String planeta1 = TipoPlaneta.getByString(pA.getEnumPlaneta().getSigla());
+			String planeta2 = TipoPlaneta.getByString(pB.getEnumPlaneta().getSigla());
 			String aspecto = TipoAspecto.getByString(ia.getAspecto());
 			
 			key = String.format("%s em %s com %s", planeta1, aspecto, planeta2 );
-			MapaPlanetaAspecto a = servico.findAspecto(pA.getSigla(), pB.getSigla(), ia.getAspecto() );
+			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), ia.getAspecto() );
 			 if (a != null) {
 				 map.put(key, a.getTexto());
 				 retorno.add(this.tratarParagrafos(key, a.getTexto()));
@@ -282,18 +280,18 @@ public class GeradorPdfService {
 		 Paragraph pa = new Paragraph();
 		 for(EnumPlaneta x : EnumPlaneta.values()) {
 			 //System.out.println("buscando "+x.getId());
-			 PlanetaPosicao pp = planetas.stream().filter(obj -> obj.getSiglaPlaneta().equals(x.getId())).findAny().orElse(null);
+			 PlanetaPosicao pp = planetas.stream().filter(obj -> obj.getEnumPlaneta().getSigla().equals(x.getSigla())).findAny().orElse(null);
 			 if (pp != null) {
 				 
-				 EnumSigno eSigno = EnumSigno.getById(pp.getNomeSigno());
-				 EnumPlaneta ePlaneta = EnumPlaneta.getById(pp.getSiglaPlaneta());
+				 /////////EnumSigno eSigno = EnumSigno.getById(pp.getEnumSigno().getSigla());
+				 //EnumPlaneta ePlaneta = EnumPlaneta.getBySigla(pp.getEnumPlaneta().getSigla());
 				 
-				 Text tLetraPlaneta = new Text(ePlaneta.getLetra()).setFontSize(12).setFont(font);
-				 Text tLetraSigno = new Text(eSigno.getLetra()).setFontSize(12).setFont(font);
+				 Text tLetraPlaneta = new Text(pp.getEnumPlaneta().getLetra()).setFontSize(12).setFont(font);
+				 Text tLetraSigno = new Text(pp.getEnumSigno().getLetra()).setFontSize(12).setFont(font);
 				 
 				 String tmp = String.format(" %s°%s'%s\" casa %s ", pp.getGnc(), pp.getM(), pp.getS(), (int)pp.getCasa());
 				 pa.add(tLetraPlaneta)
-				 .add(new Text(" "+ePlaneta.getNome()+" ").setFontSize(8))
+				 .add(new Text(" "+pp.getEnumPlaneta().getNome()+" ").setFontSize(8))
 				 .add(tLetraSigno)
 				 .add(new Text(tmp).setFontSize(8))
 				 .add("\n");

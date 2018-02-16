@@ -2,17 +2,15 @@ package br.itarocha.star;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import br.itarocha.star.model.Cidade;
 import br.itarocha.star.model.Cuspide;
+import br.itarocha.star.model.EnumPlaneta;
+import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
-import br.itarocha.star.model.Planeta;
 import br.itarocha.star.model.PlanetaPosicao;
-import br.itarocha.star.model.TempoUniversal;
 import br.itarocha.star.util.Funcoes;
 import swisseph.SweConst;
 import swisseph.SweDate;
@@ -28,10 +26,8 @@ public class MapaBuilder {
 	private static SwissEph sw;
 	private double ayanamsa;
 
+	private static final String FORMATO_DATA = "dd/MM/yyyy";
 	private static final int SID_METHOD = SweConst.SE_SIDM_LAHIRI;
-	
-	private static final String[] signos = {"ar","to","ge","ca","le","vi","li","es","sg","cp","aq","pe"};
-	private static final List <Planeta> mapPlanetas = new ArrayList<Planeta>();
 	
 	private static MapaBuilder instance = null;
 	
@@ -44,25 +40,11 @@ public class MapaBuilder {
 		String path = MapeadorCidades.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe";
 		sw = new SwissEph();
 		sw.swe_set_ephe_path(path);
-		mapPlanetas.add(new Planeta(SweConst.SE_SUN, "sol", "Sol"));
-		mapPlanetas.add(new Planeta(SweConst.SE_MOON, "lua", "Lua"));
-		mapPlanetas.add(new Planeta(SweConst.SE_MERCURY, "mer", "Mercúrio"));
-		mapPlanetas.add(new Planeta(SweConst.SE_VENUS, "ven", "Vênus"));
-		mapPlanetas.add(new Planeta(SweConst.SE_MARS, "mar", "Marte"));
-		mapPlanetas.add(new Planeta(SweConst.SE_JUPITER, "jup", "Júpiter")); 
-		mapPlanetas.add(new Planeta(SweConst.SE_SATURN, "sat", "Saturno"));
-		mapPlanetas.add(new Planeta(SweConst.SE_URANUS, "ura", "Urano")); 
-		mapPlanetas.add(new Planeta(SweConst.SE_NEPTUNE, "net", "Netuno")); 
-		mapPlanetas.add(new Planeta(SweConst.SE_PLUTO, "plu", "Plutão"));
-		mapPlanetas.add(new Planeta(SweConst.SE_TRUE_NODE, "nor", "Nódulo Norte"));
-		mapPlanetas.add(new Planeta(SweConst.SE_ASC, "asc", "Ascendente"));
-		mapPlanetas.add(new Planeta(SweConst.SE_MC, "mce", "Meio do Céu"));
 	}
-
 	
 	public Mapa build(String nome, String data, String hora, String cidade, String uf) {
 		MapeadorCidades mapeador = MapeadorCidades.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
 		Date d;
 		try {
 			d = sdf.parse(data);
@@ -90,17 +72,15 @@ public class MapaBuilder {
 
 	// Principal
 	public Mapa build(String nome, Date data, String hora, Cidade cidade){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
 		String d = sdf.format(data);
 		Mapa m = new Mapa(nome, d, hora, cidade);
-		calculate(m); 
+		calcular(m); 
 		return m;
 	}
 	
 	// TODO: Deve retornar uma classe Mapa
-	private void calculate(Mapa mapa){
-		//TempoUniversal tu = new TempoUniversal();
-		//tu = new TempoUniversal("13/10/1994","18:35",-3);
+	private void calcular(Mapa mapa){
 		this.sweDate = new SweDate(mapa.getAnoUT(),mapa.getMesUT(),mapa.getDiaUT(), mapa.getHoraDouble() );
 		this.sweDate.setCalendarType(this.sweDate.SE_GREG_CAL, this.sweDate.SE_KEEP_DATE);
 		this.ayanamsa = this.sw.swe_get_ayanamsa_ut(this.sweDate.getJulDay());
@@ -145,9 +125,11 @@ public class MapaBuilder {
 		
 		// O último era SE_CHIRON
 		for(int xis = 0; xis <= 10; xis++){
-			Planeta planeta = mapPlanetas.get(xis);
+			//Planeta planeta = mapPlanetas.get(xis);
 			
-			iflgret = sw.swe_calc(te, planeta.getId(), (int)iflag, x2, serr);
+			EnumPlaneta enumPlaneta = EnumPlaneta.getByCodigo(xis);
+			
+			iflgret = sw.swe_calc(te, xis, (int)iflag, x2, serr);
 			// if there is a problem, a negative value is returned and an errpr message is in serr.
 			if (iflgret < 0)
 				System.out.print("error: "+serr.toString()+"\n");
@@ -155,20 +137,20 @@ public class MapaBuilder {
 				System.out.print("warning: iflgret != iflag. "+serr.toString()+"\n");
 		  
 			//print the coordinates
-			signo = (int)(x2[0] / 30) + 1;
+			signo = (int)(x2[0] / 30); // + 1;
 			//house = (sign + 12 - signoAscendente) % 12 +1;
 			retrogrado = (x2[3] < 0);
 		  
 			// Atualizando posições para cálculo de aspectos
 			idxpos++;
-			aspectos_planetas[idxpos] = planeta.getId();
+			aspectos_planetas[idxpos] = enumPlaneta.getCodigo(); //planeta.getId();
 			aspectos_posicoes[idxpos] = x2[0]; 			
 			
 			PlanetaPosicao pp = new PlanetaPosicao();
+
+			pp.setEnumPlaneta(enumPlaneta);
+			pp.setEnumSigno(EnumSigno.getByCodigo(signo));
 			
-			pp.setNomePlaneta(planeta.getNome());
-			pp.setSiglaPlaneta(planeta.getSigla());
-			pp.setNomeSigno(signos[signo-1]);
 			pp.setPosicao(x2[0]);
 			pp.setGrau( Funcoes.grau(x2[0]) );
 			pp.setGrauNaCasa( Funcoes.grauNaCasa(x2[0]) );
@@ -177,38 +159,13 @@ public class MapaBuilder {
 			pp.setDistancia(x2[2]);
 			pp.setDirecao(x2[3]);
 			
-			//swisseph.SwissEph.sw
-			//SwissEph.swe_
-			
-            //double hpos = swe_house_pos(armc, lat, eps_true, hsys, x, ref serr);
-            //double hpos = swe_house_pos(0d, 0d, 0d, 0, 0, 0 0);
-			
-	        //double hpos = sw.swe_houses(jdnr, SweConst.SEFLG_SPEED, lat, lon, 'P', xx, yy);
-			// 
-
-			
-			/*
-			sw.swe_sid
-			
-            double sidt = sw.swe_sidtime(tjd) + lon / 15;
-            if (sidt >= 24)
-                sidt -= 24;
-            if (sidt < 0)
-                sidt += 24;
-            armc = sidt * 15;
-            */
-			
-			
 			double _geolat = mapa.getLatitude().Coordenada2Graus(); // ok
 			double _armc = mapa.getSideralTime(); // ok
 			double _eps_true = x[0];
-			//System.out.println("Latitude.... "+_geolat);
-			//System.out.println("Sideral Time.... "+_armc);
-			//System.out.println("EPS TRUE.... "+_eps_true);
 			
 	        double hpos = sw.swe_house_pos(_armc, _geolat, _eps_true, 'P', x2, serr);
 			
-			pp.setCasa(hpos);
+			pp.setCasaDouble(hpos);
 
 			mapa.getPosicoesPlanetas().add(pp);
 		}
@@ -228,23 +185,34 @@ public class MapaBuilder {
 		mapa.getListaCuspides().clear();
 		
 		this.casas = this.getHouses(this.sw, 
-				mapa, 
-				sweDate.getJulDay(), 
-				mapa.getLatitude().Coordenada2Graus(),
-				mapa.getLongitude().Coordenada2Graus() );
+									mapa, 
+									sweDate.getJulDay(), 
+									mapa.getLatitude().Coordenada2Graus(),
+									mapa.getLongitude().Coordenada2Graus() );
 		
 		for (int i = 1; i < 21; i++){
-			sign = (int)(casas[i] / 30) + 1;
+			sign = (int)(casas[i] / 30); // + 1;
 			
 			Cuspide cuspide = new Cuspide();
 			cuspide.setNumero(i);
 			cuspide.setPosicao(casas[i]);
-			cuspide.setGrau( Funcoes.grau(casas[i]));
+			cuspide.setGrau(Funcoes.grau(casas[i]));
 			cuspide.setGrauNaCasa( Funcoes.grauNaCasa(casas[i]) );
-			cuspide.setSigno(signos[sign-1]);
-			
+			cuspide.setEnumSigno(EnumSigno.getByCodigo(sign));
 			mapa.getListaCuspides().add(cuspide);
 		}
+
+		int intGrauDef = 0;
+    	if (!mapa.getListaCuspides().isEmpty()) {
+    		String grauDef = mapa.getListaCuspides().get(0).getGrau();
+    		grauDef = grauDef.replace('.', '-');
+    		String[] gms = grauDef.split("-");
+    		intGrauDef = Integer.parseInt(gms[0]);
+    		
+    		//System.out.println("A DEFASAGEM É DE "+gms[0]);
+    		//System.out.println("A DEFASAGEM É DE "+intGrauDef);
+    	}
+    	mapa.setGrausDefasagemAscendente(intGrauDef);
 	}
 	
 	// Fabricando de Aspectos
@@ -256,18 +224,17 @@ public class MapaBuilder {
 				aspecto = Funcoes.buildAspect(aspectos_posicoes[x], aspectos_posicoes[y]);
 				if (aspecto != ""){
 					ItemAspecto item = new ItemAspecto();
-					item.getPlanetaA().setPlaneta(aspectos_planetas[x]);
+					
+					item.getPlanetaA().setEnumPlaneta(EnumPlaneta.getByCodigo(x));
+					
 					item.getPlanetaA().setPosicao(aspectos_posicoes[x]);
 
-					item.getPlanetaB().setPlaneta(aspectos_planetas[y]);
+					item.getPlanetaB().setEnumPlaneta(EnumPlaneta.getByCodigo(y));
 					item.getPlanetaB().setPosicao(aspectos_posicoes[y]);
 					
 					item.setAspecto(aspecto);
 					item.getPlanetaA().setCoordenada(x);
 					item.getPlanetaB().setCoordenada(y);
-
-					item.getPlanetaA().setSigla(mapPlanetas.get(x).getSigla());
-					item.getPlanetaB().setSigla(mapPlanetas.get(y).getSigla());
 
 					item.getPlanetaA().setGrau(Funcoes.grau(aspectos_posicoes[x]));
 					item.getPlanetaB().setGrau(Funcoes.grau(aspectos_posicoes[y]));
@@ -317,8 +284,6 @@ public class MapaBuilder {
         }
         return zz;
     }
-
-    
 }
 
 //http://www.timeanddate.com/worldclock/switzerland/zurich

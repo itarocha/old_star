@@ -135,8 +135,8 @@ class Grafico extends JPanel {
     		String[] gms = grauDef.split("-");
     		intGrauDef = Integer.parseInt(gms[0]);
     		
-    		System.out.println("A DEFASAGEM É DE "+gms[0]);
-    		System.out.println("A DEFASAGEM É DE "+intGrauDef);
+    		//System.out.println("A DEFASAGEM É DE "+gms[0]);
+    		//System.out.println("A DEFASAGEM É DE "+intGrauDef);
     	}
     	
     	atualizarGrauDefasagem(90+intGrauDef);
@@ -192,7 +192,7 @@ class Grafico extends JPanel {
     		_g = _g.replace('.', '-');
     		String[] gms = _g.split("-");
     		//System.out.println("--------------"+gms[0]);
-        	ptPlanetas.add(calcularAngulo(Integer.parseInt(gms[0]) ,pp.getSiglaPlaneta()));
+        	ptPlanetas.add(calcularAngulo(Integer.parseInt(gms[0]) ,pp.getEnumPlaneta().getSigla() ));
     	}
     	
     	g.setColor(Color.black);

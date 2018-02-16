@@ -26,6 +26,7 @@ public class Mapa {
 	private double sideralTime;
 	private double deltaTSec;
 	private double julDay;
+	private int grausDefasagemAscendente = 0;
 	
 	private List<ItemAspecto> la = new ArrayList<ItemAspecto>();
 	private List<Cuspide> cuspides = new ArrayList<Cuspide>();
@@ -170,6 +171,14 @@ public class Mapa {
 
 	public void setJulDay(double julDay) {
 		this.julDay = julDay;
+	}
+
+	public int getGrausDefasagemAscendente() {
+		return grausDefasagemAscendente;
+	}
+
+	public void setGrausDefasagemAscendente(int grausDefasagemAscendente) {
+		this.grausDefasagemAscendente = grausDefasagemAscendente;
 	}
 
 }
