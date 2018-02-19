@@ -134,10 +134,12 @@ public class DecoradorMapa {
 			PlanetaAspecto pA = ite.getPlanetaA();
 			PlanetaAspecto pB = ite.getPlanetaB();
 			
-			retorno += String.format("{\"planeta_origem\":\"%s\", \"planeta_destino\":\"%s\", \"aspecto\":\"%s\"},\n",
+			retorno += String.format("{\"planeta_origem\":\"%s\", \"planeta_destino\":\"%s\", \"aspecto\":\"%s\", \"x\":\"%s\", \"y\":\"%s\"},\n",
 					pA.getEnumPlaneta().getSigla(), 
 					pB.getEnumPlaneta().getSigla(),
-					ite.getAspecto()
+					ite.getAspecto(),
+					pA.getCoordenada(),
+					pB.getCoordenada()
 					);
 		}
 		retorno = "\"aspectos\":[\n"+

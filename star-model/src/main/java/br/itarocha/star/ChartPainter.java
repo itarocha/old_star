@@ -18,6 +18,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import br.itarocha.star.model.Cuspide;
+import br.itarocha.star.model.ItemAspecto;
 import br.itarocha.star.model.PlanetaPosicao;
 
 public class ChartPainter {
@@ -43,10 +44,11 @@ public class ChartPainter {
 		
 	public ChartPainter(Mapa mapa) {
 		this.mapa = mapa;
-		desenharTudo();
+		drawMapa();
+		drawAspectos();
 	}
 	  
-	private void desenharTudo() {
+	private void drawMapa() {
 		try {
 		    // TYPE_INT_ARGB specifies the image format: 8-bit RGBA packed
 			// into integer pixels
@@ -57,12 +59,12 @@ public class ChartPainter {
 			g.setRenderingHint(	RenderingHints.KEY_ANTIALIASING,
 	            				RenderingHints.VALUE_ANTIALIAS_ON);
 	
-		    drawFace(g);
-		    desenharPosicoesPlanetas(g);
+		    drawMapaFundo(g);
+		    drawMapaPosicoes(g);
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
-			String dest = String.format("d:/IMG_%s.PNG",nome);		    
+			String dest = String.format("d:/MAP_%s.PNG",nome);		    
 		    ImageIO.write(bi, "PNG",  new File(dest));
 		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
@@ -70,7 +72,145 @@ public class ChartPainter {
 		  }
 	}
   
-	private void drawFace(Graphics2D g) {
+	private void drawAspectos() {
+		try {
+		    // TYPE_INT_ARGB specifies the image format: 8-bit RGBA packed
+			// into integer pixels
+			BufferedImage bi = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
+	
+			Graphics2D g = bi.createGraphics();
+	    
+			g.setRenderingHint(	RenderingHints.KEY_ANTIALIASING,
+	            				RenderingHints.VALUE_ANTIALIAS_ON);
+	
+		    drawAspectosFundo(g);
+		    //desenharPosicoesPlanetas(g);
+		    // Escolha o formato: JPEG, GIF ou PNG
+		    
+		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
+			String dest = String.format("d:/ASP_%s.PNG",nome);		    
+		    ImageIO.write(bi, "PNG",  new File(dest));
+		    System.out.println("Pronto!");
+		  } catch (IOException ie) {
+		    ie.printStackTrace();
+		  }
+	}
+
+	private void drawAspectosFundo(Graphics2D g) {
+	      g.setStroke(new BasicStroke(1));
+	      g.setColor(Color.white );
+	      //g.fillOval(MARGEM, MARGEM, SIZE, SIZE);
+	      g.fillRect(0, 0, 600, 600);
+	      
+	      /*
+	      int w = 50;
+	      int h = 40;
+	      */
+	      int margemX = 40;
+	      int margemY = 10;
+	      g.setColor(Color.black );
+	      
+	    //int a = 0, b = 0; // we will loop thorugh a,b instead
+	      
+	      int w = 35;
+	      int h = 30;
+	      
+	      for(int y = 0; y < 12; y++){
+	    	  g.drawString(y+1+"", margemX + (y) * w, 30 + (y+1) * h);
+	    	  
+	         for(int x = 0; x < 12; x++){
+	        	  if (y >= x) {
+	        		  g.drawRect(	margemX + x * w,
+	        				  		30 + y * h,
+	        				  		w,
+	        				  		h);
+	        	  }
+	         }
+	      }	      
+
+	      Font font = new Font("Arial", Font.BOLD, 18);
+	      g.setFont(font);
+	      for (ItemAspecto ite : mapa.getListaAspectos()) {
+	    	  int x = ite.getPlanetaA().getCoordenada();
+	    	  int y = ite.getPlanetaB().getCoordenada();
+	    	  String aspecto = ite.getAspecto();
+	    	  
+	    	  g.drawString(aspecto, 
+	    			       margemX + (x * w) +8,
+	    			       30 + ((y+1) * h)  -10);
+	      }
+	      
+	      /*
+	      for (int y = 0; y <= 11; y++ ) {
+	    	  g.drawLine(margemX, 
+	    			     margemY + (h * y), 
+	    			     margemX + (w * 11), 
+	    			     margemY + (h * y));
+	      }
+	      for (int x = 0; x <= 11; x++ ) {
+	    	  g.drawLine(	margemX + (x * h), 
+	    			  		margemY, 
+	    			  		margemX + (x * h), 
+	    			  		margemY + (w * 9));
+	      }
+	      */
+	      //g.drawLine(10,30, 600,30);
+	      //g.drawLine(10,30, 10,200);
+	      //g.drawLine(20,30, 20,200);
+	      //g.drawLine(30,30, 30,200);
+	      
+	      
+	      
+	      /*
+	      g.fillOval(MARGEM, MARGEM, SIZE, SIZE);
+	      
+	      g.setColor(Color.black);
+	      // Círculo Grande
+	      g.drawOval(MARGEM, MARGEM, SIZE, SIZE);
+	      
+	      g.setColor(Color.black);
+	      // Maior
+	      int RAIO_MAIOR = MARGEM + (MARGEM_CASA / 2); 
+	      int RAIO_MAIOR_B = SIZE - MARGEM_CASA;
+	      g.drawOval(RAIO_MAIOR, RAIO_MAIOR, RAIO_MAIOR_B, RAIO_MAIOR_B);
+
+	      // Média
+	      int RAIO_MEDIO = MARGEM + (MARGEM_INTERNA / 2);
+	      int RAIO_MEDIO_B = SIZE - MARGEM_INTERNA;
+	      g.drawOval(RAIO_MEDIO, RAIO_MEDIO, RAIO_MEDIO_B, RAIO_MEDIO_B);
+
+	      g.drawOval(	MARGEM + (MARGEM_ASPECTOS / 2), 
+	    		  		MARGEM + (MARGEM_ASPECTOS / 2), 
+	    		  		SIZE - MARGEM_ASPECTOS, 
+	    		  		SIZE - MARGEM_ASPECTOS);
+
+	      // CASAS
+	      //g.setColor(Color.RED);
+	      Font font = new Font("TimesRoman", Font.BOLD, 14);
+	      g.setFont(font);
+	      for (int i = 0; i <= 11; i++) {
+
+	    	  Point ptAlfa = minToLocation(i*30, DISTANCE_ALFA);
+	          Point ptBeta = minToLocation(i*30, DISTANCE_BETA);
+	          
+	          Point ptLetra = minToLocation(i*30+15, DISTANCE_BETA+18);
+
+	          String xis = new Integer(i+1).toString();
+	          g.drawString(xis,
+	          		ptLetra.x - (BIG_DOT / 2) - MARGEM,
+	          		ptLetra.y - (BIG_DOT / 2));
+	          
+	          int xIni = ptAlfa.x - MARGEM;
+	          int yIni = ptAlfa.y - MARGEM;
+	          int xFim = ptBeta.x - MARGEM;
+	          int yFim = ptBeta.y - MARGEM;
+	          g.drawLine(xIni, yIni, xFim, yFim);
+	      } 
+	      */   
+	  }
+	
+	
+	private void drawMapaFundo(Graphics2D g) {
       g.setStroke(new BasicStroke(1));
       g.setColor(Color.white );
       g.fillOval(MARGEM, MARGEM, SIZE, SIZE);
@@ -119,7 +259,7 @@ public class ChartPainter {
       }    
   }
   
-  private void desenharPosicoesPlanetas(Graphics2D g) {
+  private void drawMapaPosicoes(Graphics2D g) {
 	  g.setColor(Color.red);
 	  boolean alternador = false;
 	  Integer acrescimo = 50;

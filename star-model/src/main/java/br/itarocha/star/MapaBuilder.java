@@ -124,7 +124,7 @@ public class MapaBuilder {
 		iflgret = sw.swe_calc(te, SweConst.SE_ECL_NUT, (int)iflag, x, serr);
 		
 		// O último era SE_CHIRON
-		for(int xis = 0; xis <= 10; xis++){
+		for(int xis = 0; xis <= 9; xis++){
 			//Planeta planeta = mapPlanetas.get(xis);
 			
 			EnumPlaneta enumPlaneta = EnumPlaneta.getByCodigo(xis);
@@ -171,11 +171,11 @@ public class MapaBuilder {
 		}
 		
 		// Ascendente e Meio do Céu
-		aspectos_planetas[11] = SweConst.SE_ASC;
-		aspectos_posicoes[11] = casas[1];
+		aspectos_planetas[10] = SweConst.SE_ASC;
+		aspectos_posicoes[10] = casas[1];
 
-		aspectos_posicoes[12] = casas[10];
-		aspectos_planetas[12] = SweConst.SE_MC;
+		aspectos_posicoes[11] = casas[10];
+		aspectos_planetas[11] = SweConst.SE_MC;
 	}
 	
 	// Fabricando Cúspides
@@ -219,9 +219,12 @@ public class MapaBuilder {
 	private void buildAspectos(Mapa mapa){
 		mapa.getListaAspectos().clear();
 		String aspecto;
-		for (int x=0; x < 12; x++){
-			for(int y=x+1; y < 13; y++){
-				aspecto = Funcoes.buildAspect(aspectos_posicoes[x], aspectos_posicoes[y]);
+		for (int x=0; x < 11; x++){
+			for(int y=x+1; y < 12; y++){
+				EnumPlaneta eA = EnumPlaneta.getByCodigo(x);
+				EnumPlaneta eB = EnumPlaneta.getByCodigo(y);
+				
+				aspecto = Funcoes.buildAspect(eA.getSigla(),eB.getSigla(),aspectos_posicoes[x], aspectos_posicoes[y]);
 				if (aspecto != ""){
 					ItemAspecto item = new ItemAspecto();
 					

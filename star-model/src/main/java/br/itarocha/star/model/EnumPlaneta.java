@@ -1,7 +1,5 @@
 package br.itarocha.star.model;
 
-import swisseph.SweConst;
-
 public enum EnumPlaneta {
 	SOL(0, "sol", "A", "Sol"),
 	LUA(1, "lua", "B", "Lua"),
@@ -13,7 +11,9 @@ public enum EnumPlaneta {
 	URA(7, "ura", "H", "Urano"),
 	NET(8, "net", "I", "Netuno"),
 	PLU(9, "plu", "J", "Plutão"),
-	TND(10, "tnd", "L", "Nodo Norte");
+	//TND(10, "tnd", "L", "Nodo Norte"),
+	ASC(10, "asc", "P", "Ascendente"),
+	MCE(11, "mce", "Q", "Meio do Céu");
 	//SND("snd", "M", "Nodo Sul");
 	
 	/*
@@ -28,9 +28,6 @@ public enum EnumPlaneta {
 	mapPlanetas.add(new Planeta(SweConst.SE_NEPTUNE, "net", "Netuno", "I")); 
 	mapPlanetas.add(new Planeta(SweConst.SE_PLUTO, "plu", "Plutão", "J"));
 	mapPlanetas.add(new Planeta(SweConst.SE_TRUE_NODE, "nor", "Nódulo Norte", "L"));
-	
-	
-	
 	mapPlanetas.add(new Planeta(SweConst.SE_ASC, "asc", "Ascendente", "P"));
 	mapPlanetas.add(new Planeta(SweConst.SE_MC, "mce", "Meio do Céu", "Q"));
 	*/

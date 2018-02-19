@@ -1,5 +1,6 @@
 package br.itarocha.star.util;
 
+import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.util.TimeZone;
 
@@ -73,7 +74,7 @@ public class Funcoes {
         return c;
     }
 
-	public static String buildAspect(double a, double b){
+	public static String buildAspect(String planetaA, String planetaB, double a, double b){
 		String retorno = "";
 		
 		if (Math.abs(b-a) > 190) {
@@ -81,6 +82,25 @@ public class Funcoes {
 		}
 		
 		double resultado = Math.abs(b-a);
+
+		if (resultado < 9f){
+			retorno = "cj";
+		} else
+		if ((resultado > 53f) && (resultado < 67f)) {
+			retorno = "sx";
+		} else
+		if ((resultado > 111f) && (resultado < 129f)) {
+			retorno = "tg";
+		} else
+		if ((resultado > 81f) && (resultado < 99f)) {
+			retorno = "qd";
+		} else
+		if ((resultado > 170f) && (resultado < 189f)) {
+			retorno = "op";
+		}
+		
+		
+		/*
 		if (resultado <= 8f){
 			retorno = "cj";
 		} else
@@ -96,6 +116,14 @@ public class Funcoes {
 		if ((resultado >= 172f) && (resultado < 189f)) {
 			retorno = "op";
 		}
+		*/
+		String aspecto = retorno == "" ? "--" : retorno;
+		System.out.println(String.format("%s - %s [%s] %s %s = %s",planetaA, planetaB, 
+				aspecto, 
+				new DecimalFormat("000.0000").format(a),
+				new DecimalFormat("000.0000").format(b),
+				new DecimalFormat("000.0000").format(resultado)
+				));
 		return retorno;
 	}	
     
