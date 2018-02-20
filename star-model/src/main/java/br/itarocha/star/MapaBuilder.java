@@ -7,6 +7,7 @@ import java.util.Date;
 
 import br.itarocha.star.model.Cidade;
 import br.itarocha.star.model.Cuspide;
+import br.itarocha.star.model.EnumAspecto;
 import br.itarocha.star.model.EnumPlaneta;
 import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
@@ -235,7 +236,9 @@ public class MapaBuilder {
 					item.getPlanetaB().setEnumPlaneta(EnumPlaneta.getByCodigo(y));
 					item.getPlanetaB().setPosicao(aspectos_posicoes[y]);
 					
-					item.setAspecto(aspecto);
+					EnumAspecto enumAspecto = EnumAspecto.getBySigla(aspecto);
+					
+					item.setAspecto(enumAspecto);
 					item.getPlanetaA().setCoordenada(x);
 					item.getPlanetaB().setCoordenada(y);
 

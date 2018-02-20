@@ -9,7 +9,7 @@ public class ItemAspecto {
 		this.planetaB = new PlanetaAspecto();
 	}
 	
-	private String aspecto;
+	private EnumAspecto aspecto;
 
 	public PlanetaAspecto getPlanetaA() {
 		return planetaA;
@@ -23,10 +23,10 @@ public class ItemAspecto {
 	public void setPlanetaB(PlanetaAspecto planetaB) {
 		this.planetaB = planetaB;
 	}
-	public String getAspecto() {
+	public EnumAspecto getAspecto() {
 		return aspecto;
 	}
-	public void setAspecto(String aspecto) {
+	public void setAspecto(EnumAspecto aspecto) {
 		this.aspecto = aspecto;
 	}
 }

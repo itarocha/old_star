@@ -31,6 +31,7 @@ import com.itextpdf.layout.property.TextAlignment;
 
 import br.itarocha.star.Mapa;
 import br.itarocha.star.model.Cuspide;
+import br.itarocha.star.model.EnumAspecto;
 import br.itarocha.star.model.EnumPlaneta;
 import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
@@ -171,9 +172,19 @@ public class GeradorPdfService {
 			 
 			 String planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
 			 String casa = Casa.getByNumero((int)pp.getCasa());
+
+			 key = String.format("%s nas Casas", planeta);
+			 PlanetaCasa pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), 0);
+			 if (pc != null) {
+				 map.put(key, pc.getTexto());
+				 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
+			 } else {
+				 map.put(key, NOT_FOUND);
+				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
+			 }
 			 
 			 key = String.format("%s na %s Casa", planeta, casa);
-			 PlanetaCasa pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), pp.getCasa());
+			 pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), pp.getCasa());
 			 if (pc != null) {
 				 map.put(key, pc.getTexto());
 				 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
@@ -192,10 +203,12 @@ public class GeradorPdfService {
 			
 			String planeta1 = TipoPlaneta.getByString(pA.getEnumPlaneta().getSigla());
 			String planeta2 = TipoPlaneta.getByString(pB.getEnumPlaneta().getSigla());
-			String aspecto = TipoAspecto.getByString(ia.getAspecto());
+			EnumAspecto aspecto = ia.getAspecto();
 			
-			key = String.format("%s em %s com %s", planeta1, aspecto, planeta2 );
-			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), ia.getAspecto() );
+			//String aspecto = TipoAspecto.getByString(ia.getAspecto());
+			
+			key = String.format("%s em %s com %s", planeta1, aspecto.getNome(), planeta2 );
+			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), aspecto.getSigla() /*ia.getAspecto()*/ );
 			 if (a != null) {
 				 map.put(key, a.getTexto());
 				 retorno.add(this.tratarParagrafos(key, a.getTexto()));
