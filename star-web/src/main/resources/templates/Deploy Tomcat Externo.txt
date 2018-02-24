@@ -1,26 +1,23 @@
 Deploy no Tomcat externo
 
 Jogar o .war no /webapps
-
+-------------------------------------------------
 Para gerar war
+
+No pom.xml, <build>, adicionar
+<finalName>${project.artifactId}</finalName>
 
 Run As / maven build...
 
-Titulo: cobranca-war
+Titulo: starweb-war
 Goals: clean package
 
 Botão direito: Refresh
 Criou uma série de arquivos no target
 
+Run As "starweb-war"
 
-
-No pom.xml, <build>, adicionar
-
-<finalName>${project.artifactId}></finalName>
-
-Run As "cobranca-war"
-
-Agora virou target/cobranca.war
+Agora virou target/starweb.war
 
 Copiar para tomcat/webapps
 
@@ -34,7 +31,7 @@ Rodou e gerou um log (tomcat/logs)
 $ tail -f catalina.out
 
 O tomcat conhece a aplicação pelo contexto
-localhost:8080/cobranca/titulos
+localhost:8080/starweb/mapa/new
 
 
 Mas dá problema dos recursos estáticos
