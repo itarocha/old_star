@@ -1,5 +1,6 @@
 package com.itarocha.starweb.service;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import com.itarocha.starweb.model.Casa;
 import com.itarocha.starweb.model.Interpretacao;
@@ -247,8 +250,11 @@ public class GeradorPdfService {
 	 }
 	 
 	 private void montarArquivoTxt(Mapa mapa, Map<String, String> map)  throws IOException {
-		 String  nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
-		 String dest = String.format("d:/%s.txt",nome);
+		 String  nome = mapa.getNome().replaceAll(" ", "_").toLowerCase();
+		 
+		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		 String dest = String.format("%s/file_%s.txt",url,nome);		    
+		 //String dest = String.format("d:/%s.txt",nome);
 		 
 		 FileWriter arq = new FileWriter(dest);
 		 PrintWriter gravarArq = new PrintWriter(arq);
@@ -276,9 +282,11 @@ public class GeradorPdfService {
 	 }
 	 
 	 private void montarArquivoPdf(Mapa mapa, Map<String, String> map) throws IOException {
-		 String  nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
+		 String  nome = mapa.getNome().replaceAll(" ", "_").toLowerCase();
+
+		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		 String dest = String.format("%s/file_%s.pdf",url,nome);		    
 		 
-		 String dest = String.format("d:/%s.pdf",nome);
 		 PdfDocument pdf = new PdfDocument(new PdfWriter(dest));
 		 Document document = new Document(pdf);
 		 document.setTextAlignment(TextAlignment.JUSTIFIED);

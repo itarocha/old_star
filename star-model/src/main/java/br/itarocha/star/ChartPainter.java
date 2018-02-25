@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,8 +64,10 @@ public class ChartPainter {
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
-			String dest = String.format("d:/MAP_%s.PNG",nome);		    
+		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		    String dest = String.format("%s/map_%s.png",url,nome);		    
 		    ImageIO.write(bi, "PNG",  new File(dest));
+
 		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
 		    ie.printStackTrace();
@@ -84,8 +87,12 @@ public class ChartPainter {
 		    //desenharPosicoesPlanetas(g);
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
-			String dest = String.format("d:/ASP_%s.PNG",nome);		    
+		    
+		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		    String dest = String.format("%s/asp_%s.png",url,nome);		    
 		    ImageIO.write(bi, "PNG",  new File(dest));
+
+		    //ImageIO.write(bi, "PNG",  file);
 		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
 		    ie.printStackTrace();

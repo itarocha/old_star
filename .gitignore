@@ -1,3 +1,7 @@
+star-model/target/**
+star-web/target/**
+target/
+
 # Compiled class file
 *.class
 
