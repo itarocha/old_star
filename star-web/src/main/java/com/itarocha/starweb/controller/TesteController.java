@@ -3,15 +3,17 @@ package com.itarocha.starweb.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+/*
 import br.itarocha.star.DecoradorMapa;
 import br.itarocha.star.Mapa;
 import br.itarocha.star.MapaBuilder;
+*/
 
 @RestController
 @RequestMapping("teste")
 public class TesteController {
 
+	/*
 	@GetMapping()
 	public String teste()
 	{
@@ -33,6 +35,7 @@ public class TesteController {
 		}
 		return "suuuuuuuu ceeee sssuu";
 	}
+	*/
 }
 
 

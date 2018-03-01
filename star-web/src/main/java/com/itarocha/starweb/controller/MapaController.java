@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,8 +55,19 @@ import com.itextpdf.layout.element.Text;
 import br.itarocha.star.DecoradorMapa;
 import br.itarocha.star.Mapa;
 import br.itarocha.star.MapaBuilder;
+import de.thmac.swisseph.SweConst;
+import de.thmac.swisseph.SwissEph;
+
+/*
+import br.itarocha.star.DecoradorMapa;
+import br.itarocha.star.Mapa;
+import br.itarocha.star.MapaBuilder;
 import br.itarocha.star.MapeadorCidades;
 import br.itarocha.star.StarMain;
+*/
+//import swisseph.SweConst;
+//import swisseph.SwissEph;
+
 
 @Controller
 @RequestMapping("mapa")
@@ -83,39 +95,21 @@ public class MapaController {
     @Autowired
     private MapaService servico;
     
-	/*
-	@Autowired
-	private ClienteService service;
-
-	@Autowired
-	private ConsultaService consultasService;
-	
-	@Autowired
-	private Mensagens mensagens;
-	*/
-	
+    
+    @ExceptionHandler(RuntimeException.class)
+    public ModelAndView handle(RuntimeException ex){
+        ModelAndView model = new ModelAndView("error");
+        model.addObject("exception", ex);
+        return model;
+    }
+    
 	@RequestMapping
 	public ModelAndView pesquisar()
 	{
 		ModelAndView mv = new ModelAndView(PAGINA_INDEX);
-		
-		
 		//mv.addObject("lista",page);
 		return mv;
 	}
-	
-	
-	/*
-	private boolean userHasAuthority(String authority, Authentication auth)
-	{
-	    for (GrantedAuthority grantedAuthority :  auth.getAuthorities()) {
-	        if (authority.equals(grantedAuthority.getAuthority())) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}	
-	*/
 	
 	@RequestMapping("/new")
 	public ModelAndView novo(){
@@ -152,12 +146,53 @@ public class MapaController {
 		model.setNome(model.getNome().toUpperCase());
 		model.setCidade(model.getCidade().toUpperCase());
 		
-		List<Interpretacao> lista = constroiMapa(model);
+		//TODO DEVE ENTRAR
+		///////List<Interpretacao> lista = constroiMapa(model);
+		//.:./ephe:/users/ephe2/:/users/ephe/
+		
+		String mensagem = "declarando o swissEph parte V";
+		
+		String pathWeb = getClass().getClassLoader().getResource("").getPath()+"ephe";
+
+		
+		/*	
+		try {
+			SwissEph sw = new SwissEph(pathWeb);
+			//swisseph.SwissEph sw = new swisseph.SwissEph(pathWeb);
+			//SwissEph sw = new SwissEph("/users/ephe/");
+			//SwissEph sw = new SwissEph();
+			//sw.swe_set_ephe_path(pathWeb);
+
+		} catch (RuntimeException e) {
+			mensagem = e.getMessage();
+			throw e;
+		}
+		*/
+		
+		List<Interpretacao> lista =  new ArrayList<Interpretacao>();
+		lista = constroiMapa(model);
+
+		/*
+		MapaBuilder builder = null;
+		try {
+			builder = MapaBuilder.getInstance();
+		} catch (Exception e) {
+			mensagem = e.getMessage();
+		}
+		*/
 		
 		try{
-			//service.gravar(objeto);
+			session.setAttribute("mensagem", "xxx");
+
+			session.setAttribute("path", pathWeb);
+			session.setAttribute("pathAlternativo", SweConst.SE_EPHE_PATH);
+			
+			//session.setAttribute("path", builder != null ?  builder.getPath() : "null");
+			//session.setAttribute("pathAlternativo", builder != null ?  builder.getPathAlternativo() : "null");
+			
 			session.setAttribute("model", model);
 			session.setAttribute("lista", lista);
+
 			//attributes.addFlashAttribute("model","Itamar");
 			//attributes.addFlashAttribute("mensagem", mensagens.getMensagemGravacaoSucesso(NOME_CLASSE));
 			return PAGINA_REDIRECT;
@@ -166,24 +201,17 @@ public class MapaController {
 		}
 	}
 
-	/*
-	@RequestMapping( method = RequestMethod.POST, 
-	    value = MapaController.RESOURCE_PATH + "/file", 
-	    headers = "content-type=application/json" )
-	public void export( HttpServletResponse response ) 
-	    throws IOException {
-	    String myString = "Hello munnnnnnnndoooo \n Como está tudo aí? \n Tudo beleza?";
-	    response.setContentType("text/plain");
-	    response.setHeader("Content-Disposition","attachment;filename=myFile.txt");
-	    ServletOutputStream out = response.getOutputStream();
-	    out.println(myString);
-	    out.flush();
-	    out.close();
-	}	
-	*/
+	
 	private List<Interpretacao> constroiMapa(Cliente model){
 		List<Interpretacao> retorno =  new ArrayList<Interpretacao>();
-		Mapa mapa = MapaBuilder.getInstance().build(model.getNome(), model.getDataNascimento(), model.getHoraNascimento(), model.getCidade(), model.getUf());
+		MapaBuilder builder = null;
+		try {
+			builder = MapaBuilder.getInstance();
+		} catch (Exception e) {
+			return retorno;
+		}
+		
+		Mapa mapa = builder.build(model.getNome(), model.getDataNascimento(), model.getHoraNascimento(), model.getCidade(), model.getUf());
 		if (mapa != null) {
 			String json = new DecoradorMapa(mapa).getJSON();
 			System.out.println(json);
@@ -196,40 +224,8 @@ public class MapaController {
 				e.printStackTrace();
 			}
 			
-			/*
-			String dest = "text.pdf";
-			PdfDocument pdf = new PdfDocument(new PdfWriter(dest));
-			Document document = new Document(pdf);
-			//BufferedReader br = new BufferedReader(new FileReader(SRC));
-			String line;
-			
-			while ((line = br.readLine()) != null) {
-				document.add(new Paragraph(line));
-			}
-			
-			document.close();			
-			*/
-			
-			/*
-			PDDocument document = new PDDocument();
-			PDPage page = new PDPage();
-			document.addPage(page);
-			 
-			PDPageContentStream contentStream = new PDPageContentStream(document, page);
-			 
-			contentStream.setFont(PDType1Font.COURIER, 12);
-			contentStream.beginText();
-			contentStream.showText("Hello World");
-			contentStream.endText();
-			contentStream.close();
-			 
-			document.save("pdfBoxHelloWorld.pdf");
-			document.close();			
-			*/
-			
-			//return json;
 		} else {
-			System.out.println("MAPA ESTÁ NULO");
+			//System.out.println("MAPA ESTÁ NULO");
 		}	
 		return retorno;
 	}

@@ -17,12 +17,12 @@
 	          <li class="dropdown" sec:authorize="hasAuthority('ADMIN')">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
 	              <ul class="dropdown-menu" role="menu">
-	                <li sec:authorize="hasAnyAuthority('ADMIN', 'USER')"><a href="/mapa/new">Mapa</a></li>
-	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/solares">Signos Solares</a></li>
-	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/cuspides">Cúspides</a></li>
-	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/planetacasa">Planetas nas Casas</a></li>
-	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/planetasigno">Planetas nos Signos</a></li>
-	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/aspectos">Aspectos</a></li>
+	                <li sec:authorize="hasAnyAuthority('ADMIN', 'USER')"><a th:href="@{/mapa/new}">Mapa</a></li>
+	                <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/solares}">Signos Solares</a></li>
+	                <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/cuspides}">Cúspides</a></li>
+	                <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{planetacasa}">Planetas nas Casas</a></li>
+	                <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{planetasigno}">Planetas nos Signos</a></li>
+	                <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{aspectos}">Aspectos</a></li>
 	                <!--  
 	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/funcoeslideranca">Funções de Liderança</a></li>
 	                <li sec:authorize="hasAuthority('ADMIN')"><a href="/faixasetarias">Faixas Etárias</a></li>

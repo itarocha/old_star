@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import br.itarocha.star.model.Cidade;
 import br.itarocha.star.model.Cuspide;
@@ -13,34 +14,77 @@ import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
 import br.itarocha.star.model.PlanetaPosicao;
 import br.itarocha.star.util.Funcoes;
-import swisseph.SweConst;
-import swisseph.SweDate;
-import swisseph.SwissEph;
+import de.thmac.swisseph.SweConst;
+import de.thmac.swisseph.SweDate;
+//import swisseph.SweConst;
+//import swisseph.SweDate;
+//import swisseph.SwissEph;
+import de.thmac.swisseph.SwissEph;
 
 
 public class MapaBuilder {
+	
+	private static final Logger	log = Logger.getAnonymousLogger();
+	
 	private SweDate sweDate; 
 
 	private int[] aspectos_planetas = new int[18];
 	private double[] aspectos_posicoes = new double[18];
 	private double[] casas= new double[23];
-	private static SwissEph sw;
+	private SwissEph sw;
 	private double ayanamsa;
+	
+	private String path;
+	private String pathAlternativo;
+	
 
 	private static final String FORMATO_DATA = "dd/MM/yyyy";
 	private static final int SID_METHOD = SweConst.SE_SIDM_LAHIRI;
 	
 	private static MapaBuilder instance = null;
 	
-	public static MapaBuilder getInstance() {
+	public static MapaBuilder getInstance() throws Exception{
 		if (instance == null) instance = new MapaBuilder();
 		return instance;
 	}
 	
-	static {
-		String path = MapeadorCidades.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe";
-		sw = new SwissEph();
-		sw.swe_set_ephe_path(path);
+	public String getPath() {
+		return this.path;
+	}
+
+	public String getPathAlternativo() {
+		return this.pathAlternativo;
+	}
+	
+	//static {
+	//}
+	
+	private MapaBuilder() throws Exception {
+		String oldpath = MapaBuilder.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe/";
+		this.path = oldpath;
+		log.info("PATH: "+oldpath);
+		
+		//System.out.println(oldpath);
+		//System.out.println(oldpath);
+		//System.out.println(oldpath);
+		
+		//String path = MapaBuilder.class.getClassLoader().getResource("").getPath()+"/ephe";
+		String pathWeb = getClass().getClassLoader().getResource("").getPath()+"ephe";
+		
+		this.pathAlternativo = pathWeb;
+		log.info("PATH: "+pathWeb);
+		
+		//System.out.println(path);
+		//System.out.println(path);
+		//System.out.println(path);
+		
+		try {
+			//TODO DEVE VOLTAR
+			sw = new SwissEph(oldpath);
+			sw.swe_set_ephe_path(this.pathAlternativo);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	public Mapa build(String nome, String data, String hora, String cidade, String uf) {
@@ -66,7 +110,7 @@ public class MapaBuilder {
 		if (c != null) {
 			return build(nome, data, hora, c);
 		} else {
-			System.out.println("Cidade não encontrada");
+			System.out.println("Cidade nao encontrada");
 		}
 		return null;
 	}
@@ -101,10 +145,10 @@ public class MapaBuilder {
 	// Do the coordinate calculation for this planet p
 	// x2[0] = longitude (Planeta)
 	// x2[1] = latitude
-	// x2[2] = distância
-	// x2[3] = velocidade do planeta em longitude // Se negativo, retrógrado
+	// x2[2] = distancia
+	// x2[3] = velocidade do planeta em longitude // Se negativo, retrogrado
 	// x2[4] = velodicade em latitude
-	// x2[5] = velocidade em distância???
+	// x2[5] = velocidade em distancia???
 	private void buildPlanetas(Mapa mapa){
 		int signo;
 		//String nomeSigno = "";
@@ -124,7 +168,7 @@ public class MapaBuilder {
 		
 		iflgret = sw.swe_calc(te, SweConst.SE_ECL_NUT, (int)iflag, x, serr);
 		
-		// O último era SE_CHIRON
+		// O ï¿½ltimo era SE_CHIRON
 		for(int xis = 0; xis <= 9; xis++){
 			//Planeta planeta = mapPlanetas.get(xis);
 			
@@ -142,7 +186,7 @@ public class MapaBuilder {
 			//house = (sign + 12 - signoAscendente) % 12 +1;
 			retrogrado = (x2[3] < 0);
 		  
-			// Atualizando posições para cálculo de aspectos
+			// Atualizando posicoes para calculo de aspectos
 			idxpos++;
 			aspectos_planetas[idxpos] = enumPlaneta.getCodigo(); //planeta.getId();
 			aspectos_posicoes[idxpos] = x2[0]; 			
@@ -171,7 +215,7 @@ public class MapaBuilder {
 			mapa.getPosicoesPlanetas().add(pp);
 		}
 		
-		// Ascendente e Meio do Céu
+		// Ascendente e Meio do Ceu
 		aspectos_planetas[10] = SweConst.SE_ASC;
 		aspectos_posicoes[10] = casas[1];
 
@@ -179,8 +223,8 @@ public class MapaBuilder {
 		aspectos_planetas[11] = SweConst.SE_MC;
 	}
 	
-	// Fabricando Cúspides
-	// Depende do cálculo das casas
+	// Fabricando Cuspides
+	// Depende do calculo das casas
 	private void buildCasas(Mapa mapa){
 		int sign;
 		mapa.getListaCuspides().clear();
@@ -210,8 +254,8 @@ public class MapaBuilder {
     		String[] gms = grauDef.split("-");
     		intGrauDef = Integer.parseInt(gms[0]);
     		
-    		//System.out.println("A DEFASAGEM É DE "+gms[0]);
-    		//System.out.println("A DEFASAGEM É DE "+intGrauDef);
+    		//System.out.println("A DEFASAGEM ï¿½ DE "+gms[0]);
+    		//System.out.println("A DEFASAGEM ï¿½ DE "+intGrauDef);
     	}
     	mapa.setGrausDefasagemAscendente(intGrauDef);
 	}
@@ -310,5 +354,5 @@ public class MapaBuilder {
 //%-12s %10.7f\t %10.7f\t %10.7f\t
 //pp.getSiglaPlaneta()
 //pp.getLatitude(),			// Latitude
-//pp.getDistancia(),   		// Distância
-//pp.getDirecao()   		// Direção
+//pp.getDistancia(),   		// Distï¿½ncia
+//pp.getDirecao()   		// Direï¿½ï¿½o

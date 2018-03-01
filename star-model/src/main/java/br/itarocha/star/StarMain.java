@@ -20,7 +20,7 @@ public class StarMain {
 		String cidade;
 		String uf;
 		if (args.length < 5){
-			System.out.println("Entre com os 5 parâmetros com espaço");
+			System.out.println("Entre com os 5 parametros com espaco");
 			System.out.println("Nome");
 			System.out.println("Data de nascimento formato DD/MM/AAAA");
 			System.out.println("Hora de nascimento qualquer formato com ou sem segundos com delimitador \".\" ou \":\" HH:MM OU HH.MM.SS");
@@ -65,7 +65,7 @@ public class StarMain {
 			Date d = sdf.parse(data);
     		retorno = construtor.build(nome, d, hora, c);
 		} else {
-			System.out.println("Não conseguiu localizar cidade");
+			System.out.println("Nao conseguiu localizar cidade");
 		}
 		return retorno;
 	}
@@ -85,7 +85,7 @@ NET 03 Sg 00.16 R
 PLU 29 Vg 25.17
 */
 
-// Site Teoria da Conspiração - Link de mapa
+// Site Teoria da Conspiraï¿½ï¿½o - Link de mapa
 // http://www.deldebbio.com.br/
 // http://www.viraj.com.br/
 // http://www.sadhana.com.br/cgi-local/mapas/mapanow.cgi
@@ -94,19 +94,19 @@ PLU 29 Vg 25.17
 /*	
 SP - 19/09/2014 - 12:16 UTC (9:16)
 ver mapa
-Sol 26° Vg 29
-Lua 04° Le 30
-Mer 22° Li 39
-Vên 17° Vg 06
-Mar 03° Sg 46
-Júp 13° Le 51
-Sat 19° Es 27
-Ura 15° Ár 14 R
-Net 05° Pe 38 R
-Plu 10° Cp 59 R
-Nod 20° Li 25 R
-Lil 22° Le 15
-Qui 14° Pe 52 R
+Sol 26ï¿½ Vg 29
+Lua 04ï¿½ Le 30
+Mer 22ï¿½ Li 39
+Vï¿½n 17ï¿½ Vg 06
+Mar 03ï¿½ Sg 46
+Jï¿½p 13ï¿½ Le 51
+Sat 19ï¿½ Es 27
+Ura 15ï¿½ ï¿½r 14 R
+Net 05ï¿½ Pe 38 R
+Plu 10ï¿½ Cp 59 R
+Nod 20ï¿½ Li 25 R
+Lil 22ï¿½ Le 15
+Qui 14ï¿½ Pe 52 R
 */
 
 

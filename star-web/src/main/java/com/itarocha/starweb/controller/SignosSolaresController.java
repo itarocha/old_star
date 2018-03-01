@@ -29,11 +29,13 @@ import com.itarocha.starweb.model.TipoSigno;
 import com.itarocha.starweb.model.UnidadeFederacao;
 import com.itarocha.starweb.repository.SignoSolarRepository;
 
+/*
 import br.itarocha.star.DecoradorMapa;
 import br.itarocha.star.Mapa;
 import br.itarocha.star.MapaBuilder;
 import br.itarocha.star.MapeadorCidades;
 import br.itarocha.star.StarMain;
+*/
 
 @Controller
 @RequestMapping("solares")

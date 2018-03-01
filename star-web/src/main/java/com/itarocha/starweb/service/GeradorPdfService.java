@@ -45,7 +45,7 @@ public class GeradorPdfService {
 	
     //@Autowired
     //private MapaService servico;
-	
+
     public static final String FONT_ASTRO = "src/main/resources/fonts/AstroDotBasic.ttf";
 	
 	 public List<Interpretacao> createArquivo(MapaService servico, Mapa mapa, String texto) throws IOException {
@@ -211,7 +211,7 @@ public class GeradorPdfService {
 			//String aspecto = TipoAspecto.getByString(ia.getAspecto());
 			
 			key = String.format("%s em %s com %s", planeta1, aspecto.getNome(), planeta2 );
-			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), aspecto.getSigla() /*ia.getAspecto()*/ );
+			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), aspecto.getSigla() );
 			 if (a != null) {
 				 map.put(key, a.getTexto());
 				 retorno.add(this.tratarParagrafos(key, a.getTexto()));
@@ -225,7 +225,7 @@ public class GeradorPdfService {
 			System.out.println(k + (NOT_FOUND.equals(map.get(k)) ? " - NÃO ENCONTRADO" : ""));
 		}
 		
-		montarArquivoPdf(mapa, map);
+		//////////////montarArquivoPdf(mapa, map);
 		montarArquivoTxt(mapa, map);
 		
 		return retorno;
@@ -252,7 +252,7 @@ public class GeradorPdfService {
 	 private void montarArquivoTxt(Mapa mapa, Map<String, String> map)  throws IOException {
 		 String  nome = mapa.getNome().replaceAll(" ", "_").toLowerCase();
 		 
-		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		 String dest = String.format("%s/file_%s.txt",url,nome);		    
 		 //String dest = String.format("d:/%s.txt",nome);
 		 
@@ -284,7 +284,7 @@ public class GeradorPdfService {
 	 private void montarArquivoPdf(Mapa mapa, Map<String, String> map) throws IOException {
 		 String  nome = mapa.getNome().replaceAll(" ", "_").toLowerCase();
 
-		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
+		 String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		 String dest = String.format("%s/file_%s.pdf",url,nome);		    
 		 
 		 PdfDocument pdf = new PdfDocument(new PdfWriter(dest));
@@ -335,30 +335,7 @@ public class GeradorPdfService {
 			document.add(p);
 		}
 		 
-		 /*
-		 document.add(new Paragraph( new Text(texto).setFontSize(8).setFont(fontCourier) ));
-		 */
-		 
 		 document.close();		 
-		 /*
-		 Document document = new Document();
-		 try {
-			PdfWriter.getInstance(document, new FileOutputStream("d:/hello.pdf"));
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		  
-		 document.open();
-		 try {
-			document.add(new Paragraph(texto));
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		 
-		 document.close();		 
-		  */
 		 
 	 }
 	

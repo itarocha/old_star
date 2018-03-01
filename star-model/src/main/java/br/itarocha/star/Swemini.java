@@ -81,9 +81,11 @@ package br.itarocha.star;
   The trademarks 'Swiss Ephemeris' and 'Swiss Ephemeris inside' may be used
   for promoting such software, products or services.
 */
-import swisseph.*;
+//import swisseph.*;
 import java.io.*;
 import java.util.Locale;
+
+import de.thmac.swisseph.*;
 
 public class Swemini
 		{
