@@ -43,9 +43,11 @@ public class ChartPainter {
 	private static final int PQ_DOT = 5;
 	
 	private Mapa mapa;
+	private String pathToSave;
 		
-	public ChartPainter(Mapa mapa) {
+	public ChartPainter(Mapa mapa, String path) {
 		this.mapa = mapa;
+		this.pathToSave = path;
 		drawMapa();
 		drawAspectos();
 	}
@@ -64,8 +66,10 @@ public class ChartPainter {
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
-		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
-		    String dest = String.format("%s/map_%s.png",url,nome);		    
+		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		    url = this.pathToSave;
+		    //String dest = String.format("%s/map_%s.png",url,nome);		    
+		    String dest = String.format("%s/mapa.png",url);		    
 		    ImageIO.write(bi, "PNG",  new File(dest));
 
 		    System.out.println("Pronto!");
@@ -88,8 +92,10 @@ public class ChartPainter {
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
 		    
-		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath()/* +"/output"*/;
-		    String dest = String.format("%s/asp_%s.png",url,nome);		    
+		    String url = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		    url = this.pathToSave;
+		    //String dest = String.format("%s/asp_%s.png",url,nome);		    
+		    String dest = String.format("%s/aspectos.png",url);		    
 		    ImageIO.write(bi, "PNG",  new File(dest));
 
 		    //ImageIO.write(bi, "PNG",  file);
@@ -149,7 +155,7 @@ public class ChartPainter {
       g.fillOval(MARGEM, MARGEM, SIZE, SIZE);
       
       g.setColor(Color.black);
-      // Círculo Grande
+      // Cï¿½rculo Grande
       g.drawOval(MARGEM, MARGEM, SIZE, SIZE);
       
       g.setColor(Color.black);
@@ -158,7 +164,7 @@ public class ChartPainter {
       int RAIO_MAIOR_B = SIZE - MARGEM_CASA;
       g.drawOval(RAIO_MAIOR, RAIO_MAIOR, RAIO_MAIOR_B, RAIO_MAIOR_B);
 
-      // Média
+      // Mï¿½dia
       int RAIO_MEDIO = MARGEM + (MARGEM_INTERNA / 2);
       int RAIO_MEDIO_B = SIZE - MARGEM_INTERNA;
       g.drawOval(RAIO_MEDIO, RAIO_MEDIO, RAIO_MEDIO_B, RAIO_MEDIO_B);
@@ -216,7 +222,7 @@ public class ChartPainter {
     	  
     	  alternador = !alternador;
     	  acrescimo = alternador ? 50 : 90;
-    	  // ATENÇÃO! REDUZIR A DEFASAGEM DO SIGNO ASCENDENTE!!!
+    	  // ATENï¿½ï¿½O! REDUZIR A DEFASAGEM DO SIGNO ASCENDENTE!!!
     	  Point ptLetra = minToLocation(grau, DISTANCE_BETA+acrescimo);
     	  g.drawString(item.getTexto(),
     			  ptLetra.x - (BIG_DOT / 2) - MARGEM,
@@ -244,7 +250,7 @@ public class ChartPainter {
           
           g.setFont(new Font("TimesRoman", Font.PLAIN , 13));
           
-          String grau = c.getGnc()+"°";
+          String grau = c.getGnc()+"Â°";
           String minuto = c.getM().toString()+"'";
           
           String txtAntes = grau;

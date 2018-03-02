@@ -34,45 +34,40 @@ public class MapaBuilder {
 	private SwissEph sw;
 	private double ayanamsa;
 	
-	private String path;
-	private String pathAlternativo;
-	
+	private static String imagePath;
 
 	private static final String FORMATO_DATA = "dd/MM/yyyy";
 	private static final int SID_METHOD = SweConst.SE_SIDM_LAHIRI;
 	
 	private static MapaBuilder instance = null;
 	
-	public static MapaBuilder getInstance() throws Exception{
+	public static MapaBuilder getInstance(String path) throws Exception{
 		if (instance == null) instance = new MapaBuilder();
+		imagePath = path;
 		return instance;
 	}
 	
 	public String getPath() {
-		return this.path;
+		return imagePath;
 	}
 
-	public String getPathAlternativo() {
-		return this.pathAlternativo;
-	}
-	
 	//static {
 	//}
 	
 	private MapaBuilder() throws Exception {
-		String oldpath = MapaBuilder.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe/";
-		this.path = oldpath;
-		log.info("PATH: "+oldpath);
+		//String oldpath = MapaBuilder.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe/";
+		//this.path = oldpath;
+		//log.info("PATH: "+oldpath);
 		
 		//System.out.println(oldpath);
 		//System.out.println(oldpath);
 		//System.out.println(oldpath);
 		
 		//String path = MapaBuilder.class.getClassLoader().getResource("").getPath()+"/ephe";
-		String pathWeb = getClass().getClassLoader().getResource("").getPath()+"ephe";
+		String path = getClass().getClassLoader().getResource("").getPath()+"ephe";
 		
-		this.pathAlternativo = pathWeb;
-		log.info("PATH: "+pathWeb);
+		//this.pathAlternativo = path;
+		log.info("PATH: "+path);
 		
 		//System.out.println(path);
 		//System.out.println(path);
@@ -80,8 +75,7 @@ public class MapaBuilder {
 		
 		try {
 			//TODO DEVE VOLTAR
-			sw = new SwissEph(oldpath);
-			sw.swe_set_ephe_path(this.pathAlternativo);
+			sw = new SwissEph(path);
 		} catch (Exception e) {
 			throw e;
 		}

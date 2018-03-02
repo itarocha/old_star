@@ -45,7 +45,7 @@ public class StarMain {
 			if (mapa != null) {
 	    		String json = new DecoradorMapa(mapa).getJSON();
 	    		//Grafico.build(mapa);
-	    		ChartPainter cp = new ChartPainter(mapa);
+	    		ChartPainter cp = new ChartPainter(mapa,".");
 	    		System.out.println(json);
 			}
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class StarMain {
 	// ("Itamar","29/06/1972","5.0.0", Caxias, MA
 	public Mapa buildMapa(String nome, String data, String hora, String cidade, String uf ) throws Exception{
 		Mapa retorno = null;
-		MapaBuilder construtor = MapaBuilder.getInstance();
+		MapaBuilder construtor = MapaBuilder.getInstance(".");
 		Cidade c = MapeadorCidades.getInstance().getCidade(cidade, uf);
 		if (c != null){
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

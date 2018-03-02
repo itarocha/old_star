@@ -18,15 +18,17 @@
 	</div>
 	<div class="row" th:if="${session != null}">	
 		<div class="col-md-12">
-	 	<p th:text="${session.model.nome}" >Itamar Rocha Chaves Junior</p>
-	 	<p th:text="${{session.model.dataNascimento}}" >29/06/1972</p>
-	 	<p th:text="${session.model.horaNascimento}" >05:00</p>
-	 	<p th:text="${session.model.cidade}" >Caxias</p>
-	 	<p th:text="${session.model.uf}" >MA</p>
-	 	<p th:text="${session.mensagem}" >mensagem</p>
-	 	<p th:text="${session.path}" >/home</p>
-	 	<p th:text="${session.pathAlternativo}" >/home/seila</p>
-	 	</div>
+			<h3>
+		 		<span th:text="${session.model.nome}" >Itamar Rocha Chaves Junior</span> -
+		 		<span th:text="${{session.model.dataNascimento}}" >29/06/1972</span>
+		 		<span th:text="${session.model.horaNascimento}" >05:00</span>
+		 	</h3>
+		 	<h4>
+		 		<span th:text="${session.model.cidade}" >Caxias</span> - <span th:text="${session.model.uf}" >MA</span>
+		 	</h4>
+		 	<img th:src="@{/images/mapa.png}" />
+		 	<img th:src="@{/images/aspectos.png}" />
+		</div>
 	 	
 	</div>
 	<div class="row col-md-12" th:each="item: ${session.lista}" >

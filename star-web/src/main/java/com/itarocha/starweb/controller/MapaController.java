@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,13 +17,16 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 //import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 //import org.springframework.data.domain.Pageable;
 //import org.springframework.data.web.PageableDefault;
 //import org.springframework.security.core.Authentication;
@@ -52,6 +56,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 
+import br.itarocha.star.ChartPainter;
 import br.itarocha.star.DecoradorMapa;
 import br.itarocha.star.Mapa;
 import br.itarocha.star.MapaBuilder;
@@ -137,64 +142,32 @@ public class MapaController {
 	public String salvar(	@Valid @ModelAttribute("model") Cliente model, 
 							BindingResult bindingResult, 
 							final RedirectAttributes attributes,
+							HttpServletRequest request,
 							HttpSession session)
 	{
 		if (bindingResult.hasErrors()){
 			return PAGINA_EDIT;
 		}
 		
+		
+		ServletContext context = request.getSession().getServletContext();
+        String appPath = context.getRealPath("");
+        appPath = new ClassPathResource("images").getPath();
+        URL sqlScriptUrl = MapaController.class.getClassLoader().getResource("static/images/logo-petra.png");
+        appPath = MapaController.class.getClassLoader().getResource("static/images").getPath();
+        		
+        
+        
 		model.setNome(model.getNome().toUpperCase());
 		model.setCidade(model.getCidade().toUpperCase());
 		
-		//TODO DEVE ENTRAR
-		///////List<Interpretacao> lista = constroiMapa(model);
-		//.:./ephe:/users/ephe2/:/users/ephe/
-		
-		String mensagem = "declarando o swissEph parte V";
-		
-		String pathWeb = getClass().getClassLoader().getResource("").getPath()+"ephe";
+		List<Interpretacao> lista = constroiMapa(model, appPath);
 
-		
-		/*	
-		try {
-			SwissEph sw = new SwissEph(pathWeb);
-			//swisseph.SwissEph sw = new swisseph.SwissEph(pathWeb);
-			//SwissEph sw = new SwissEph("/users/ephe/");
-			//SwissEph sw = new SwissEph();
-			//sw.swe_set_ephe_path(pathWeb);
-
-		} catch (RuntimeException e) {
-			mensagem = e.getMessage();
-			throw e;
-		}
-		*/
-		
-		List<Interpretacao> lista =  new ArrayList<Interpretacao>();
-		lista = constroiMapa(model);
-
-		/*
-		MapaBuilder builder = null;
-		try {
-			builder = MapaBuilder.getInstance();
-		} catch (Exception e) {
-			mensagem = e.getMessage();
-		}
-		*/
-		
 		try{
-			session.setAttribute("mensagem", "xxx");
-
-			session.setAttribute("path", pathWeb);
-			session.setAttribute("pathAlternativo", SweConst.SE_EPHE_PATH);
-			
-			//session.setAttribute("path", builder != null ?  builder.getPath() : "null");
-			//session.setAttribute("pathAlternativo", builder != null ?  builder.getPathAlternativo() : "null");
-			
+			session.setAttribute("path", appPath);
 			session.setAttribute("model", model);
 			session.setAttribute("lista", lista);
 
-			//attributes.addFlashAttribute("model","Itamar");
-			//attributes.addFlashAttribute("mensagem", mensagens.getMensagemGravacaoSucesso(NOME_CLASSE));
 			return PAGINA_REDIRECT;
 		}catch(IllegalArgumentException e){
 			return PAGINA_EDIT;
@@ -202,17 +175,18 @@ public class MapaController {
 	}
 
 	
-	private List<Interpretacao> constroiMapa(Cliente model){
+	private List<Interpretacao> constroiMapa(Cliente model, String path){
 		List<Interpretacao> retorno =  new ArrayList<Interpretacao>();
 		MapaBuilder builder = null;
 		try {
-			builder = MapaBuilder.getInstance();
+			builder = MapaBuilder.getInstance(path);
 		} catch (Exception e) {
 			return retorno;
 		}
 		
 		Mapa mapa = builder.build(model.getNome(), model.getDataNascimento(), model.getHoraNascimento(), model.getCidade(), model.getUf());
 		if (mapa != null) {
+			ChartPainter cp = new ChartPainter(mapa,path);
 			String json = new DecoradorMapa(mapa).getJSON();
 			System.out.println(json);
 			

@@ -3,33 +3,33 @@ package br.itarocha.star.model;
 public enum EnumPlaneta {
 	SOL(0, "sol", "A", "Sol"),
 	LUA(1, "lua", "B", "Lua"),
-	MER(2, "mer", "C", "Mercúrio"),
-	VEN(3, "ven", "D", "Vênus"),
+	MER(2, "mer", "C", "MercÃºrio"),
+	VEN(3, "ven", "D", "VÃªnus"),
 	MAR(4, "mar", "E", "Marte"),
-	JUP(5, "jup", "F", "Júpiter"),
+	JUP(5, "jup", "F", "JÃºpiter"),
 	SAT(6, "sat", "G", "Saturno"),
 	URA(7, "ura", "H", "Urano"),
 	NET(8, "net", "I", "Netuno"),
-	PLU(9, "plu", "J", "Plutão"),
+	PLU(9, "plu", "J", "PlutÃ£o"),
 	//TND(10, "tnd", "L", "Nodo Norte"),
 	ASC(10, "asc", "P", "Ascendente"),
-	MCE(11, "mce", "Q", "Meio do Céu");
+	MCE(11, "mce", "Q", "Meio do CÃ©u");
 	//SND("snd", "M", "Nodo Sul");
 	
 	/*
 	mapPlanetas.add(new Planeta(SweConst.SE_SUN, "sol", "Sol", "A"));
 	mapPlanetas.add(new Planeta(SweConst.SE_MOON, "lua", "Lua", "B"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MERCURY, "mer", "Mercúrio", "C"));
-	mapPlanetas.add(new Planeta(SweConst.SE_VENUS, "ven", "Vênus", "D"));
+	mapPlanetas.add(new Planeta(SweConst.SE_MERCURY, "mer", "Mercï¿½rio", "C"));
+	mapPlanetas.add(new Planeta(SweConst.SE_VENUS, "ven", "Vï¿½nus", "D"));
 	mapPlanetas.add(new Planeta(SweConst.SE_MARS, "mar", "Marte", "E"));
-	mapPlanetas.add(new Planeta(SweConst.SE_JUPITER, "jup", "Júpiter", "F")); 
+	mapPlanetas.add(new Planeta(SweConst.SE_JUPITER, "jup", "Jï¿½piter", "F")); 
 	mapPlanetas.add(new Planeta(SweConst.SE_SATURN, "sat", "Saturno", "G"));
 	mapPlanetas.add(new Planeta(SweConst.SE_URANUS, "ura", "Urano", "H")); 
 	mapPlanetas.add(new Planeta(SweConst.SE_NEPTUNE, "net", "Netuno", "I")); 
-	mapPlanetas.add(new Planeta(SweConst.SE_PLUTO, "plu", "Plutão", "J"));
-	mapPlanetas.add(new Planeta(SweConst.SE_TRUE_NODE, "nor", "Nódulo Norte", "L"));
+	mapPlanetas.add(new Planeta(SweConst.SE_PLUTO, "plu", "Plutï¿½o", "J"));
+	mapPlanetas.add(new Planeta(SweConst.SE_TRUE_NODE, "nor", "Nï¿½dulo Norte", "L"));
 	mapPlanetas.add(new Planeta(SweConst.SE_ASC, "asc", "Ascendente", "P"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MC, "mce", "Meio do Céu", "Q"));
+	mapPlanetas.add(new Planeta(SweConst.SE_MC, "mce", "Meio do Cï¿½u", "Q"));
 	*/
 	
 	private Integer codigo;

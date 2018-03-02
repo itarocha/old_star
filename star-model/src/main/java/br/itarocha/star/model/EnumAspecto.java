@@ -2,10 +2,10 @@ package br.itarocha.star.model;
 
 public enum EnumAspecto {
 
-	CJ("cj","m","Conjunção"),
-	OP("op","n","Oposição" ),
+	CJ("cj","m","ConjunÃ§Ã£o"),
+	OP("op","n","OposiÃ§Ã£o" ),
 	QD("qd","o","Quadratura"),
-	TG("tg","p","Trígono"),
+	TG("tg","p","TrÃ­gono"),
 	SX("sx","q","Sextil");
 	
 	private String sigla;
