@@ -1,5 +1,7 @@
 package br.itarocha.star.model;
 
+import de.thmac.swisseph.SweConst;
+
 public enum EnumPlaneta {
 	SOL(0, "sol", "A", "Sol"),
 	LUA(1, "lua", "B", "Lua"),

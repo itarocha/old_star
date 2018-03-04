@@ -69,12 +69,7 @@ public class MapaBuilder {
 		//this.pathAlternativo = path;
 		log.info("PATH: "+path);
 		
-		//System.out.println(path);
-		//System.out.println(path);
-		//System.out.println(path);
-		
 		try {
-			//TODO DEVE VOLTAR
 			sw = new SwissEph(path);
 		} catch (Exception e) {
 			throw e;
@@ -131,90 +126,10 @@ public class MapaBuilder {
 		mapa.setDeltaTSec(this.sweDate.getDeltaT() * 86400);
 		mapa.setJulDay(this.sweDate.getJulDay()+tmp);
 		
+		// Rigorosamente nesta ordem
 		buildCasas(mapa);
 		buildPlanetas(mapa);
 		buildAspectos(mapa);
-	}
-
-	// Do the coordinate calculation for this planet p
-	// x2[0] = longitude (Planeta)
-	// x2[1] = latitude
-	// x2[2] = distancia
-	// x2[3] = velocidade do planeta em longitude // Se negativo, retrogrado
-	// x2[4] = velodicade em latitude
-	// x2[5] = velocidade em distancia???
-	private void buildPlanetas(Mapa mapa){
-		int signo;
-		//String nomeSigno = "";
-		long iflag, iflgret;
-		iflag = SweConst.SEFLG_SPEED;
-
-		double tjd, te;
-		tjd=sweDate.getJulDay();
-		te = tjd + sweDate.getDeltaT(tjd);
-		double x[]=new double[6];
-		double x2[]=new double[6];
-		StringBuffer serr=new StringBuffer();
-		boolean retrogrado = false;
-		int idxpos = -1;
-
-		mapa.getPosicoesPlanetas().clear();
-		
-		iflgret = sw.swe_calc(te, SweConst.SE_ECL_NUT, (int)iflag, x, serr);
-		
-		// O �ltimo era SE_CHIRON
-		for(int xis = 0; xis <= 9; xis++){
-			//Planeta planeta = mapPlanetas.get(xis);
-			
-			EnumPlaneta enumPlaneta = EnumPlaneta.getByCodigo(xis);
-			
-			iflgret = sw.swe_calc(te, xis, (int)iflag, x2, serr);
-			// if there is a problem, a negative value is returned and an errpr message is in serr.
-			if (iflgret < 0)
-				System.out.print("error: "+serr.toString()+"\n");
-			else if (iflgret != iflag)
-				System.out.print("warning: iflgret != iflag. "+serr.toString()+"\n");
-		  
-			//print the coordinates
-			signo = (int)(x2[0] / 30); // + 1;
-			//house = (sign + 12 - signoAscendente) % 12 +1;
-			retrogrado = (x2[3] < 0);
-		  
-			// Atualizando posicoes para calculo de aspectos
-			idxpos++;
-			aspectos_planetas[idxpos] = enumPlaneta.getCodigo(); //planeta.getId();
-			aspectos_posicoes[idxpos] = x2[0]; 			
-			
-			PlanetaPosicao pp = new PlanetaPosicao();
-
-			pp.setEnumPlaneta(enumPlaneta);
-			pp.setEnumSigno(EnumSigno.getByCodigo(signo));
-			
-			pp.setPosicao(x2[0]);
-			pp.setGrau( Funcoes.grau(x2[0]) );
-			pp.setGrauNaCasa( Funcoes.grauNaCasa(x2[0]) );
-			pp.setRetrogrado(retrogrado);
-			pp.setLatitude(x2[1]);
-			pp.setDistancia(x2[2]);
-			pp.setDirecao(x2[3]);
-			
-			double _geolat = mapa.getLatitude().Coordenada2Graus(); // ok
-			double _armc = mapa.getSideralTime(); // ok
-			double _eps_true = x[0];
-			
-	        double hpos = sw.swe_house_pos(_armc, _geolat, _eps_true, 'P', x2, serr);
-			
-			pp.setCasaDouble(hpos);
-
-			mapa.getPosicoesPlanetas().add(pp);
-		}
-		
-		// Ascendente e Meio do Ceu
-		aspectos_planetas[10] = SweConst.SE_ASC;
-		aspectos_posicoes[10] = casas[1];
-
-		aspectos_posicoes[11] = casas[10];
-		aspectos_planetas[11] = SweConst.SE_MC;
 	}
 	
 	// Fabricando Cuspides
@@ -229,15 +144,18 @@ public class MapaBuilder {
 									mapa.getLatitude().Coordenada2Graus(),
 									mapa.getLongitude().Coordenada2Graus() );
 		
-		for (int i = 1; i < 21; i++){
-			sign = (int)(casas[i] / 30); // + 1;
-			
-			Cuspide cuspide = new Cuspide();
+		//for (int i = 1; i < 21; i++){
+		for (int i = 1; i <= 12; i++){
+			Cuspide cuspide = new Cuspide(i, casas[i]);
+			/*
 			cuspide.setNumero(i);
 			cuspide.setPosicao(casas[i]);
 			cuspide.setGrau(Funcoes.grau(casas[i]));
-			cuspide.setGrauNaCasa( Funcoes.grauNaCasa(casas[i]) );
+			cuspide.setGrauNaCasa(Funcoes.grauNaCasa(casas[i]) );
+			sign = (int)(casas[i] / 30);
 			cuspide.setEnumSigno(EnumSigno.getByCodigo(sign));
+			*/
+
 			mapa.getListaCuspides().add(cuspide);
 		}
 
@@ -248,10 +166,98 @@ public class MapaBuilder {
     		String[] gms = grauDef.split("-");
     		intGrauDef = Integer.parseInt(gms[0]);
     		
-    		//System.out.println("A DEFASAGEM � DE "+gms[0]);
-    		//System.out.println("A DEFASAGEM � DE "+intGrauDef);
+    		//System.out.println("A DEFASAGEM GRAU DE "+gms[0]);
+    		//System.out.println("A DEFASAGEM GRAU DE "+intGrauDef);
     	}
     	mapa.setGrausDefasagemAscendente(intGrauDef);
+	}
+	
+
+	// Do the coordinate calculation for this planet p
+	// x2[0] = longitude (Planeta)
+	// x2[1] = latitude
+	// x2[2] = distancia
+	// x2[3] = velocidade do planeta em longitude // Se negativo, retrogrado
+	// x2[4] = velodicade em latitude
+	// x2[5] = velocidade em distancia???
+	private void buildPlanetas(Mapa mapa){
+		int signo;
+		//String nomeSigno = "";
+		long iflag, iflgret;
+		EnumPlaneta enumPlaneta;
+		PlanetaPosicao pp;
+		iflag = SweConst.SEFLG_SPEED;
+
+		double tjd, te;
+		tjd=sweDate.getJulDay();
+		te = tjd + sweDate.getDeltaT(tjd);
+		double x[]=new double[6];
+		double x2[]=new double[6];
+		StringBuffer serr=new StringBuffer();
+		boolean isRetrogrado = false;
+		int idxpos = -1;
+
+		mapa.getPosicoesPlanetas().clear();
+		
+		iflgret = sw.swe_calc(te, SweConst.SE_ECL_NUT, (int)iflag, x, serr);
+		
+		// O ultimo era SE_CHIRON
+		for(int index = 0; index <= 9; index++){
+			//Planeta planeta = mapPlanetas.get(xis);
+			
+			iflgret = sw.swe_calc(te, index, (int)iflag, x2, serr);
+			// if there is a problem, a negative value is returned and an errpr message is in serr.
+			if (iflgret < 0)
+				System.out.print("error: "+serr.toString()+"\n");
+			else if (iflgret != iflag)
+				System.out.print("warning: iflgret != iflag. "+serr.toString()+"\n");
+		  
+			//print the coordinates
+			//house = (sign + 12 - signoAscendente) % 12 +1;
+			isRetrogrado = (x2[3] < 0);
+		  
+			// Atualizando posicoes para calculo de aspectos
+			//idxpos++;
+
+			double _geolat = mapa.getLatitude().Coordenada2Graus(); // ok
+			double _armc = mapa.getSideralTime(); // ok
+			double _eps_true = x[0];
+			
+	        double casaDouble = sw.swe_house_pos(_armc, _geolat, _eps_true, 'P', x2, serr);
+
+	        double latitude = x2[1];
+	        double distancia = x2[2];
+	        double direcao = x2[3];
+	        double posicao = x2[0];
+			
+	        enumPlaneta = EnumPlaneta.getByCodigo(index);
+			pp = new PlanetaPosicao(enumPlaneta, posicao);
+			
+			pp.setRetrogrado(isRetrogrado);
+			pp.setLatitude(latitude);
+			pp.setDistancia(distancia);
+			pp.setDirecao(direcao);
+			pp.setCasaDouble(casaDouble);
+			mapa.getPosicoesPlanetas().add(pp);
+
+			aspectos_planetas[index] = enumPlaneta.getCodigo(); //planeta.getId();
+			aspectos_posicoes[index] = posicao; 			
+		}
+		
+		// Ascendente e Meio do Ceu
+		aspectos_planetas[10] = EnumPlaneta.getByCodigo(10).getCodigo();//SweConst.SE_ASC;
+		aspectos_posicoes[10] = casas[1];
+		
+		enumPlaneta = EnumPlaneta.getByCodigo(10);
+		pp = new PlanetaPosicao(enumPlaneta, casas[1]);
+		mapa.getPosicoesPlanetas().add(pp);
+
+		aspectos_planetas[11] = EnumPlaneta.getByCodigo(11).getCodigo(); //SweConst.SE_MC;
+		aspectos_posicoes[11] = casas[10];
+
+		enumPlaneta = EnumPlaneta.getByCodigo(11);
+		pp = new PlanetaPosicao(enumPlaneta, casas[10]);
+		mapa.getPosicoesPlanetas().add(pp);
 	}
 	
 	// Fabricando de Aspectos

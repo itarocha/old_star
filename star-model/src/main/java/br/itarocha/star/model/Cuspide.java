@@ -1,5 +1,7 @@
 package br.itarocha.star.model;
 
+import br.itarocha.star.util.Funcoes;
+
 public class Cuspide {
 	private int numero;
 	private double posicao;
@@ -11,35 +13,56 @@ public class Cuspide {
 	private String m;
 	private String s;
 	
+	public Cuspide(int numero, double posicao) {
+		
+		this.numero = numero;
+		this.posicao = posicao;
+		this.setGrau(Funcoes.grau(posicao));
+		this.setGrauNaCasa(Funcoes.grauNaCasa(posicao));
+		int signo = (int)(posicao / 30); 
+		this.enumSigno = EnumSigno.getByCodigo(signo);
+		//cuspide.setNumero(i);
+		//cuspide.setPosicao(casas[i]);
+		//cuspide.setGrau(Funcoes.grau(posicao));
+		//cuspide.setGrauNaCasa(Funcoes.grauNaCasa(casas[i]) );
+		//sign = (int)(casas[i] / 30);
+		//cuspide.setEnumSigno(EnumSigno.getByCodigo(sign));
+
+	}
+
 	public int getNumero() {
 		return numero;
 	}
 	
+	/*
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
+	*/
 	
 	public double getPosicao() {
 		return posicao;
 	}
 	
+	/*
 	public void setPosicao(double posicao) {
 		this.posicao = posicao;
 	}
+	*/
 	
 	public EnumSigno getEnumSigno() {
 		return enumSigno;
 	}
-	
+	/*
 	public void setEnumSigno(EnumSigno enumSigno) {
 		this.enumSigno = enumSigno;
 	}
-
+	*/
 	public String getGrau() {
 		return grau;
 	}
 	
-	public void setGrau(String grau) {
+	private void setGrau(String grau) {
 		this.grau = grau;
 		String tmp = grau;
 		tmp = tmp.replace('.', '-');
@@ -53,7 +76,7 @@ public class Cuspide {
 		return grauNaCasa;
 	}
 	
-	public void setGrauNaCasa(String grauNaCasa) {
+	private void setGrauNaCasa(String grauNaCasa) {
 		this.grauNaCasa = grauNaCasa;
 		String tmp = grauNaCasa;
 		tmp = tmp.replace('.', '-');

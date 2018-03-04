@@ -1,5 +1,7 @@
 package br.itarocha.star.model;
 
+import br.itarocha.star.util.Funcoes;
+
 public class PlanetaPosicao {
 	private EnumPlaneta enumPlaneta;
 	private EnumSigno enumSigno;
@@ -17,6 +19,15 @@ public class PlanetaPosicao {
 	private double casaDouble;
 	private Integer casa;
 
+	public PlanetaPosicao(EnumPlaneta enumPlaneta, double posicao) {
+		this.enumPlaneta = enumPlaneta;
+		this.posicao = posicao;
+		int signo = (int)(posicao / 30);
+		this.enumSigno = EnumSigno.getByCodigo(signo);
+		this.setGrau( Funcoes.grau(posicao) );
+		this.setGrauNaCasa( Funcoes.grauNaCasa(posicao) );
+	}
+	
 	public EnumPlaneta getEnumPlaneta() {
 		return enumPlaneta;
 	}
@@ -37,7 +48,7 @@ public class PlanetaPosicao {
 		return grau;
 	}
 	
-	public void setGrau(String grau) {
+	private void setGrau(String grau) {
 		this.grau = grau;
 		String tmp = grau;
 		tmp = tmp.replace('.', '-');
@@ -51,7 +62,7 @@ public class PlanetaPosicao {
 		return grauNaCasa;
 	}
 	
-	public void setGrauNaCasa(String grauNaCasa) {
+	private void setGrauNaCasa(String grauNaCasa) {
 		this.grauNaCasa = grauNaCasa;
 		String tmp = grauNaCasa;
 		tmp = tmp.replace('.', '-');

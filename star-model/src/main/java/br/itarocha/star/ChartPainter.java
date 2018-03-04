@@ -80,14 +80,18 @@ public class ChartPainter {
   
 	private void drawAspectos() {
 		try {
-			BufferedImage bi = new BufferedImage(500, 380, BufferedImage.TYPE_INT_ARGB);
+			
+			int largura = 500 + 400;
+			int altura = 380;
+			
+			BufferedImage bi = new BufferedImage(largura, altura, BufferedImage.TYPE_INT_ARGB);
 	
 			Graphics2D g = bi.createGraphics();
 	    
 			g.setRenderingHint(	RenderingHints.KEY_ANTIALIASING,
 	            				RenderingHints.VALUE_ANTIALIAS_ON);
 	
-		    drawAspectosFundo(g);
+		    drawAspectosFundo(g, largura, altura);
 		    //desenharPosicoesPlanetas(g);
 		    // Escolha o formato: JPEG, GIF ou PNG
 		    String nome = mapa.getNome().replaceAll(" ", "_").toUpperCase();
@@ -105,26 +109,86 @@ public class ChartPainter {
 		  }
 	}
 
-	private void drawAspectosFundo(Graphics2D g) {
+	private void drawAspectosFundo(Graphics2D g, int largura, int altura) {
 	      g.setStroke(new BasicStroke(1));
 	      g.setColor(Color.white );
-	      g.fillRect(0, 0, 500, 380);
+	      //g.fillRect(0, 0, 500, 380);
+	      g.fillRect(0, 0, largura, altura);
 	      
-	      int margemX = 40;
+	      //int margemX = 40;
+	      int margemX = 40 + 400;
 	      int margemY = 10;
 	      g.setColor(Color.black );
 	      
-	      int w = 35;
-	      int h = 25;
+	      int w = 35; // pode ser a largura da letra "W"
+	      int h = 25; // pode ser a altura da letra "W"
 	      
-	      Font font = this.getFontAstrologia();
+	      /*
+	      for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
+			  if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
+
+			  ItemDesenhoMapa item = new ItemDesenhoMapa(pp.getEnumPlaneta().getLetra(), Integer.parseInt(pp.getG()), Integer.parseInt(pp.getGnc()), Integer.parseInt(pp.getM()));		  
+			  lista.add(item);
+			  
+		  }
+	      */
+	      
+	      Font fontAstro = this.getFontAstrologia();
+	      Font fontTimes = new Font("TimesRoman", Font.BOLD, 18);
 		  // Planetas
-	      g.setFont(font.deriveFont(28f));
 	      for(int y = 0; y < 12; y++){
 	    	  EnumPlaneta e = EnumPlaneta.getByCodigo(y);
 	    	  
-	    	  g.drawString(e.getLetra(), margemX + (y * w) +10
-	    			             , 30 + ((y+1) * h) -4);
+	    	  //int cordY = 
+	    	  
+	    	  PlanetaPosicao pp = mapa.getPosicoesPlanetas().get(y);
+	    	  
+	    	  /*
+	    	  g.drawString(e.getLetra(),
+	    			       margemX + (y * w) +10,
+	    			       30 + (h * (y+1)) -4);
+	    	  */	       
+	    	  // Texto antes
+		      g.setFont(fontAstro.deriveFont(28f));
+	    	  g.drawString(	pp.getEnumPlaneta().getLetra(),
+	       					w,
+	       					26 + (h * (y+1)) );
+
+	    	  
+	    	  
+	    	  g.setFont(fontTimes);
+	    	  g.drawString(	pp.getEnumPlaneta().getNome(),
+		       				30 + w,
+		       				26 + (h * (y+1)) );
+	    	  
+
+
+	    	  g.setFont(fontTimes);
+	    	  g.drawString(	pp.getGnc() ,
+	       				200 + w,
+	       				26 + (h * (y+1)) );
+	    	  
+	    	  
+		      g.setFont(fontAstro.deriveFont(28f));
+	    	  g.drawString(	pp.getEnumSigno().getLetra() ,
+		       				230 + w,
+		       				26 + (h * (y+1)) );
+	    	  
+	    	  g.setFont(fontTimes);
+	    	  g.drawString(	pp.getM() ,
+	       				253 + w,
+	       				26 + (h * (y+1)) );
+	    	  
+	    	  g.drawString(	pp.getEnumSigno().getNome() ,
+	       				282 + w,
+	       				26 + (h * (y+1)) );
+	    	  
+	    	  
+	    	 // Cabecalhos (planetas)
+	    	 g.setFont(fontAstro.deriveFont(28f));
+	    	 g.drawString(	e.getLetra(),
+   			       			margemX + 10 + (y * w),
+   			       			26 + (h * (y+1)) );
 	    	 
 	         for(int x = 0; x < 12; x++){
 	        	  if (y > x) {
@@ -222,7 +286,7 @@ public class ChartPainter {
     	  
     	  alternador = !alternador;
     	  acrescimo = alternador ? 50 : 90;
-    	  // ATEN��O! REDUZIR A DEFASAGEM DO SIGNO ASCENDENTE!!!
+    	  // ATENCAO! REDUZIR A DEFASAGEM DO SIGNO ASCENDENTE!!!
     	  Point ptLetra = minToLocation(grau, DISTANCE_BETA+acrescimo);
     	  g.drawString(item.getTexto(),
     			  ptLetra.x - (BIG_DOT / 2) - MARGEM,

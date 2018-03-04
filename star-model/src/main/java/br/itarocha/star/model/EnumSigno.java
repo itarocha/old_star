@@ -3,17 +3,17 @@ package br.itarocha.star.model;
 public enum EnumSigno {
 	//SOL(0, "sol", "A", "Sol"),
 	
-	AR(0, "ar", "a", "Áries"),
+	AR(0, "ar", "a", "Ãries"),
 	TO(1, "to", "b", "Touro"),
-	GE(2, "ge", "c", "Gêmeos"),
-	CA(3, "ca", "d", "Câncer"),
-	LE(4, "le", "e", "Leão"),
+	GE(2, "ge", "c", "GÃªmeos"),
+	CA(3, "ca", "d", "CÃ¢ncer"),
+	LE(4, "le", "e", "LeÃ£o"),
 	VI(5, "vi", "f", "Virgem"),
 	LI(6, "li", "g", "Libra"),
-	ES(7, "es", "h", "Escorpião"),
-	SG(8, "sg", "i", "Sagitário"),
-	CP(9, "cp", "j", "Capricórnio"),
-	AQ(10, "aq", "k", "Aquário"),
+	ES(7, "es", "h", "EscorpiÃ£o"),
+	SG(8, "sg", "i", "SagitÃ¡rio"),
+	CP(9, "cp", "j", "CapricÃ³rnio"),
+	AQ(10, "aq", "k", "AquÃ¡rio"),
 	PE(11, "pe", "l", "Peixes");
 	
 	private Integer codigo;
