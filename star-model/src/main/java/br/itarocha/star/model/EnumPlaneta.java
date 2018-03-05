@@ -1,7 +1,5 @@
 package br.itarocha.star.model;
 
-import de.thmac.swisseph.SweConst;
-
 public enum EnumPlaneta {
 	SOL(0, "sol", "A", "Sol"),
 	LUA(1, "lua", "B", "Lua"),
@@ -13,26 +11,11 @@ public enum EnumPlaneta {
 	URA(7, "ura", "H", "Urano"),
 	NET(8, "net", "I", "Netuno"),
 	PLU(9, "plu", "J", "Plutão"),
-	//TND(10, "tnd", "L", "Nodo Norte"),
 	ASC(10, "asc", "P", "Ascendente"),
 	MCE(11, "mce", "Q", "Meio do Céu");
+
+	//TND(10, "tnd", "L", "Nodo Norte"),
 	//SND("snd", "M", "Nodo Sul");
-	
-	/*
-	mapPlanetas.add(new Planeta(SweConst.SE_SUN, "sol", "Sol", "A"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MOON, "lua", "Lua", "B"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MERCURY, "mer", "Merc�rio", "C"));
-	mapPlanetas.add(new Planeta(SweConst.SE_VENUS, "ven", "V�nus", "D"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MARS, "mar", "Marte", "E"));
-	mapPlanetas.add(new Planeta(SweConst.SE_JUPITER, "jup", "J�piter", "F")); 
-	mapPlanetas.add(new Planeta(SweConst.SE_SATURN, "sat", "Saturno", "G"));
-	mapPlanetas.add(new Planeta(SweConst.SE_URANUS, "ura", "Urano", "H")); 
-	mapPlanetas.add(new Planeta(SweConst.SE_NEPTUNE, "net", "Netuno", "I")); 
-	mapPlanetas.add(new Planeta(SweConst.SE_PLUTO, "plu", "Plut�o", "J"));
-	mapPlanetas.add(new Planeta(SweConst.SE_TRUE_NODE, "nor", "N�dulo Norte", "L"));
-	mapPlanetas.add(new Planeta(SweConst.SE_ASC, "asc", "Ascendente", "P"));
-	mapPlanetas.add(new Planeta(SweConst.SE_MC, "mce", "Meio do C�u", "Q"));
-	*/
 	
 	private Integer codigo;
 	private String sigla;
@@ -79,7 +62,4 @@ public enum EnumPlaneta {
 		}
 		return EnumPlaneta.SOL;
 	}
-	
-
-			
 }

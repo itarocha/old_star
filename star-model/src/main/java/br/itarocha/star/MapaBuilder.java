@@ -51,24 +51,9 @@ public class MapaBuilder {
 		return imagePath;
 	}
 
-	//static {
-	//}
-	
 	private MapaBuilder() throws Exception {
-		//String oldpath = MapaBuilder.class.getProtectionDomain().getCodeSource().getLocation().getPath()+"/ephe/";
-		//this.path = oldpath;
-		//log.info("PATH: "+oldpath);
-		
-		//System.out.println(oldpath);
-		//System.out.println(oldpath);
-		//System.out.println(oldpath);
-		
-		//String path = MapaBuilder.class.getClassLoader().getResource("").getPath()+"/ephe";
 		String path = getClass().getClassLoader().getResource("").getPath()+"ephe";
-		
-		//this.pathAlternativo = path;
 		log.info("PATH: "+path);
-		
 		try {
 			sw = new SwissEph(path);
 		} catch (Exception e) {
@@ -146,17 +131,7 @@ public class MapaBuilder {
 		
 		//for (int i = 1; i < 21; i++){
 		for (int i = 1; i <= 12; i++){
-			Cuspide cuspide = new Cuspide(i, casas[i]);
-			/*
-			cuspide.setNumero(i);
-			cuspide.setPosicao(casas[i]);
-			cuspide.setGrau(Funcoes.grau(casas[i]));
-			cuspide.setGrauNaCasa(Funcoes.grauNaCasa(casas[i]) );
-			sign = (int)(casas[i] / 30);
-			cuspide.setEnumSigno(EnumSigno.getByCodigo(sign));
-			*/
-
-			mapa.getListaCuspides().add(cuspide);
+			mapa.getListaCuspides().add(new Cuspide(i, casas[i]));
 		}
 
 		int intGrauDef = 0;
@@ -165,9 +140,6 @@ public class MapaBuilder {
     		grauDef = grauDef.replace('.', '-');
     		String[] gms = grauDef.split("-");
     		intGrauDef = Integer.parseInt(gms[0]);
-    		
-    		//System.out.println("A DEFASAGEM GRAU DE "+gms[0]);
-    		//System.out.println("A DEFASAGEM GRAU DE "+intGrauDef);
     	}
     	mapa.setGrausDefasagemAscendente(intGrauDef);
 	}
@@ -181,8 +153,6 @@ public class MapaBuilder {
 	// x2[4] = velodicade em latitude
 	// x2[5] = velocidade em distancia???
 	private void buildPlanetas(Mapa mapa){
-		int signo;
-		//String nomeSigno = "";
 		long iflag, iflgret;
 		EnumPlaneta enumPlaneta;
 		PlanetaPosicao pp;
@@ -217,8 +187,6 @@ public class MapaBuilder {
 			isRetrogrado = (x2[3] < 0);
 		  
 			// Atualizando posicoes para calculo de aspectos
-			//idxpos++;
-
 			double _geolat = mapa.getLatitude().Coordenada2Graus(); // ok
 			double _armc = mapa.getSideralTime(); // ok
 			double _eps_true = x[0];
@@ -245,14 +213,14 @@ public class MapaBuilder {
 		}
 		
 		// Ascendente e Meio do Ceu
-		aspectos_planetas[10] = EnumPlaneta.getByCodigo(10).getCodigo();//SweConst.SE_ASC;
+		aspectos_planetas[10] = EnumPlaneta.getByCodigo(10).getCodigo();
 		aspectos_posicoes[10] = casas[1];
 		
 		enumPlaneta = EnumPlaneta.getByCodigo(10);
 		pp = new PlanetaPosicao(enumPlaneta, casas[1]);
 		mapa.getPosicoesPlanetas().add(pp);
 
-		aspectos_planetas[11] = EnumPlaneta.getByCodigo(11).getCodigo(); //SweConst.SE_MC;
+		aspectos_planetas[11] = EnumPlaneta.getByCodigo(11).getCodigo();
 		aspectos_posicoes[11] = casas[10];
 
 		enumPlaneta = EnumPlaneta.getByCodigo(11);

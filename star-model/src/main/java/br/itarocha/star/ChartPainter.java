@@ -70,7 +70,7 @@ public class ChartPainter {
 		    url = this.pathToSave;
 		    //String dest = String.format("%s/map_%s.png",url,nome);		    
 		    String dest = String.format("%s/mapa.png",url);		    
-		    ImageIO.write(bi, "PNG",  new File(dest));
+		    ImageIO.write(bi, "png",  new File(dest));
 
 		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
@@ -81,8 +81,8 @@ public class ChartPainter {
 	private void drawAspectos() {
 		try {
 			
-			int largura = 500 + 400;
-			int altura = 380;
+			int largura = 500 + 300;
+			int altura = 300;
 			
 			BufferedImage bi = new BufferedImage(largura, altura, BufferedImage.TYPE_INT_ARGB);
 	
@@ -100,7 +100,7 @@ public class ChartPainter {
 		    url = this.pathToSave;
 		    //String dest = String.format("%s/asp_%s.png",url,nome);		    
 		    String dest = String.format("%s/aspectos.png",url);		    
-		    ImageIO.write(bi, "PNG",  new File(dest));
+		    ImageIO.write(bi, "png",  new File(dest));
 
 		    //ImageIO.write(bi, "PNG",  file);
 		    System.out.println("Pronto!");
@@ -116,79 +116,64 @@ public class ChartPainter {
 	      g.fillRect(0, 0, largura, altura);
 	      
 	      //int margemX = 40;
-	      int margemX = 40 + 400;
+	      int margemX = 40 + 320;
 	      int margemY = 10;
 	      g.setColor(Color.black );
 	      
 	      int w = 35; // pode ser a largura da letra "W"
-	      int h = 25; // pode ser a altura da letra "W"
+	      int h = 20; // pode ser a altura da letra "W"
 	      
-	      /*
-	      for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
-			  if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
-
-			  ItemDesenhoMapa item = new ItemDesenhoMapa(pp.getEnumPlaneta().getLetra(), Integer.parseInt(pp.getG()), Integer.parseInt(pp.getGnc()), Integer.parseInt(pp.getM()));		  
-			  lista.add(item);
-			  
-		  }
-	      */
+	      //Font fontAstroX = this.getFontAstrologia();
 	      
-	      Font fontAstro = this.getFontAstrologia();
-	      Font fontTimes = new Font("TimesRoman", Font.BOLD, 18);
+	      Font fontAstro = this.getFontAstrologia().deriveFont(20f);
+	      
+	      Font fontTimes = new Font("TimesRoman", Font.BOLD, 14);
 		  // Planetas
 	      for(int y = 0; y < 12; y++){
 	    	  EnumPlaneta e = EnumPlaneta.getByCodigo(y);
 	    	  
-	    	  //int cordY = 
-	    	  
 	    	  PlanetaPosicao pp = mapa.getPosicoesPlanetas().get(y);
 	    	  
-	    	  /*
-	    	  g.drawString(e.getLetra(),
-	    			       margemX + (y * w) +10,
-	    			       30 + (h * (y+1)) -4);
-	    	  */	       
-	    	  // Texto antes
-		      g.setFont(fontAstro.deriveFont(28f));
+	    	  // Símbolo Planeta
+		      g.setFont(fontAstro);
 	    	  g.drawString(	pp.getEnumPlaneta().getLetra(),
 	       					w,
 	       					26 + (h * (y+1)) );
 
 	    	  
-	    	  
+	    	  // Nome Planeta
 	    	  g.setFont(fontTimes);
 	    	  g.drawString(	pp.getEnumPlaneta().getNome(),
-		       				30 + w,
+		       				22 + w,
 		       				26 + (h * (y+1)) );
-	    	  
 
-
+	    	  // Grau Signo
 	    	  g.setFont(fontTimes);
-	    	  g.drawString(	pp.getGnc() ,
-	       				200 + w,
+	    	  g.drawString(	pp.getGnc() + "°" ,
+	       				130 + w,
 	       				26 + (h * (y+1)) );
 	    	  
-	    	  
-		      g.setFont(fontAstro.deriveFont(28f));
+	    	  // Simbolo Signo
+		      g.setFont(fontAstro);
 	    	  g.drawString(	pp.getEnumSigno().getLetra() ,
-		       				230 + w,
+		       				160 + w,
 		       				26 + (h * (y+1)) );
 	    	  
 	    	  g.setFont(fontTimes);
-	    	  g.drawString(	pp.getM() ,
-	       				253 + w,
+	    	  g.drawString(	pp.getM()+"'" ,
+	       				176 + w,
 	       				26 + (h * (y+1)) );
 	    	  
 	    	  g.drawString(	pp.getEnumSigno().getNome() ,
-	       				282 + w,
+	       				210 + w,
 	       				26 + (h * (y+1)) );
 	    	  
 	    	  
 	    	 // Cabecalhos (planetas)
-	    	 g.setFont(fontAstro.deriveFont(28f));
+	    	 g.setFont(fontAstro);
 	    	 g.drawString(	e.getLetra(),
-   			       			margemX + 10 + (y * w),
-   			       			26 + (h * (y+1)) );
+ 			       			margemX + 10 + (y * w),
+ 			       			26 + (h * (y+1)) );
 	    	 
 	         for(int x = 0; x < 12; x++){
 	        	  if (y > x) {
@@ -212,14 +197,13 @@ public class ChartPainter {
 	      }
 	  }
 	
-	
 	private void drawMapaFundo(Graphics2D g) {
       g.setStroke(new BasicStroke(1));
       g.setColor(Color.white );
       g.fillOval(MARGEM, MARGEM, SIZE, SIZE);
       
       g.setColor(Color.black);
-      // C�rculo Grande
+      // Circulo Grande
       g.drawOval(MARGEM, MARGEM, SIZE, SIZE);
       
       g.setColor(Color.black);
@@ -228,7 +212,7 @@ public class ChartPainter {
       int RAIO_MAIOR_B = SIZE - MARGEM_CASA;
       g.drawOval(RAIO_MAIOR, RAIO_MAIOR, RAIO_MAIOR_B, RAIO_MAIOR_B);
 
-      // M�dia
+      // Media
       int RAIO_MEDIO = MARGEM + (MARGEM_INTERNA / 2);
       int RAIO_MEDIO_B = SIZE - MARGEM_INTERNA;
       g.drawOval(RAIO_MEDIO, RAIO_MEDIO, RAIO_MEDIO_B, RAIO_MEDIO_B);

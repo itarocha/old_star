@@ -21,43 +21,20 @@ public class Cuspide {
 		this.setGrauNaCasa(Funcoes.grauNaCasa(posicao));
 		int signo = (int)(posicao / 30); 
 		this.enumSigno = EnumSigno.getByCodigo(signo);
-		//cuspide.setNumero(i);
-		//cuspide.setPosicao(casas[i]);
-		//cuspide.setGrau(Funcoes.grau(posicao));
-		//cuspide.setGrauNaCasa(Funcoes.grauNaCasa(casas[i]) );
-		//sign = (int)(casas[i] / 30);
-		//cuspide.setEnumSigno(EnumSigno.getByCodigo(sign));
-
 	}
 
 	public int getNumero() {
 		return numero;
 	}
 	
-	/*
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-	*/
-	
 	public double getPosicao() {
 		return posicao;
 	}
 	
-	/*
-	public void setPosicao(double posicao) {
-		this.posicao = posicao;
-	}
-	*/
-	
 	public EnumSigno getEnumSigno() {
 		return enumSigno;
 	}
-	/*
-	public void setEnumSigno(EnumSigno enumSigno) {
-		this.enumSigno = enumSigno;
-	}
-	*/
+
 	public String getGrau() {
 		return grau;
 	}

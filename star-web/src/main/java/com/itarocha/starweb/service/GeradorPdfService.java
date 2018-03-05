@@ -1,6 +1,5 @@
 package com.itarocha.starweb.service;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
 import com.itarocha.starweb.model.Casa;
 import com.itarocha.starweb.model.Interpretacao;
 import com.itarocha.starweb.model.MapaCuspide;
@@ -18,7 +15,6 @@ import com.itarocha.starweb.model.MapaPlanetaAspecto;
 import com.itarocha.starweb.model.PlanetaCasa;
 import com.itarocha.starweb.model.PlanetaSigno;
 import com.itarocha.starweb.model.SignoSolar;
-import com.itarocha.starweb.model.TipoAspecto;
 import com.itarocha.starweb.model.TipoPlaneta;
 import com.itarocha.starweb.model.TipoSigno;
 import com.itextpdf.io.font.FontConstants;
@@ -36,16 +32,12 @@ import br.itarocha.star.Mapa;
 import br.itarocha.star.model.Cuspide;
 import br.itarocha.star.model.EnumAspecto;
 import br.itarocha.star.model.EnumPlaneta;
-import br.itarocha.star.model.EnumSigno;
 import br.itarocha.star.model.ItemAspecto;
 import br.itarocha.star.model.PlanetaAspecto;
 import br.itarocha.star.model.PlanetaPosicao;
 
 public class GeradorPdfService {
 	
-    //@Autowired
-    //private MapaService servico;
-
     public static final String FONT_ASTRO = "src/main/resources/fonts/AstroDotBasic.ttf";
 	
 	 public List<Interpretacao> createArquivo(MapaService servico, Mapa mapa, String texto) throws IOException {
@@ -93,6 +85,8 @@ public class GeradorPdfService {
 			 
 			 if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
 			 if("sol".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
+			 if("asc".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
+			 if("mce".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
 
 			 
 			 // Apresentação
@@ -167,12 +161,13 @@ public class GeradorPdfService {
 		}
 		 
 		// PLANETAS NAS CASAS
+		
 		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
-			 
+			//PlanetaPosicao pp = mapa.getPosicoesPlanetas().get(i);
 			 if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
+			 if("asc".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
+			 if("mce".equalsIgnoreCase(pp.getEnumPlaneta().getSigla() )) continue;
 		 
-			 //key = String.format("%s.%02d", pp.getSiglaPlaneta(), (int)pp.getCasa());
-			 
 			 String planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
 			 String casa = Casa.getByNumero((int)pp.getCasa());
 
@@ -202,13 +197,9 @@ public class GeradorPdfService {
 			PlanetaAspecto pA = ia.getPlanetaA();
 			PlanetaAspecto pB = ia.getPlanetaB(); 
 			
-			//key = String.format("%s.%s.%s", pA.getSigla(), ia.getAspecto(), pB.getSigla() );
-			
 			String planeta1 = TipoPlaneta.getByString(pA.getEnumPlaneta().getSigla());
 			String planeta2 = TipoPlaneta.getByString(pB.getEnumPlaneta().getSigla());
 			EnumAspecto aspecto = ia.getAspecto();
-			
-			//String aspecto = TipoAspecto.getByString(ia.getAspecto());
 			
 			key = String.format("%s em %s com %s", planeta1, aspecto.getNome(), planeta2 );
 			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), aspecto.getSigla() );

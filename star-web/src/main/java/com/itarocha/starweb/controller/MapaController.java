@@ -197,7 +197,6 @@ public class MapaController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		} else {
 			//System.out.println("MAPA ESTÁ NULO");
 		}	
