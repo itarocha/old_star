@@ -22,8 +22,6 @@ public class DecoradorMapa {
 		retorno += ",\n";
 		retorno += displayPlanetasNosSignos();
 		retorno += ",\n";
-		retorno += displayPlanetasNasCasas();
-		retorno += ",\n";
 		retorno += displayCuspides();
 		retorno += ",\n";
 		retorno += displayAspectos();
@@ -67,11 +65,11 @@ public class DecoradorMapa {
 	private String displayPlanetasNosSignos(){
 		String retorno = "";
 		
-		//System.out.println("\nPLANETAS");
 		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
-			retorno += String.format("{\"planeta\":\"%s\", \"signo\":\"%s\", \"grau\": \"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
+			retorno += String.format("{\"planeta\":\"%s\", \"signo\":\"%s\", \"casa\": \"%02d\",  \"grau\": \"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
 					pp.getEnumPlaneta().getSigla(), 	// Planeta
 					pp.getEnumSigno().getSigla(),		// Signo
+					pp.getCasa(),
 					pp.getGrau(),
 					pp.getGnc(),			// gg 
 					pp.getM(),				// mm 
@@ -81,25 +79,6 @@ public class DecoradorMapa {
 		retorno =  "\"planetas_signos\":[\n"+
 					retorno.substring(0,retorno.length()-2)+
 					"\n]";
-		return retorno;
-	}
-
-	private String displayPlanetasNasCasas(){
-		String retorno = "";
-		
-		for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
-			retorno += String.format("{\"planeta\":\"%s\", \"casa\":\"%02d\", \"grau\":\"%s\", \"gg\":\"%s\", \"mm\":\"%s\", \"ss\":\"%s\"},\n",
-					pp.getEnumPlaneta().getSigla(), 	// Planeta
-					pp.getCasa(),		// Casa
-					pp.getGrau(),
-					pp.getGnc(),			// gg 
-					pp.getM(),				// mm 
-					pp.getS()
-					);
-		}
-		retorno =  "\"planetas_casas\":[\n"+
-				  retorno.substring(0,retorno.length()-2)+
-				  "\n]";
 		return retorno;
 	}
 

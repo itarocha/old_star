@@ -72,7 +72,6 @@ public class ChartPainter {
 		    String dest = String.format("%s/mapa.png",url);		    
 		    ImageIO.write(bi, "png",  new File(dest));
 
-		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
 		    ie.printStackTrace();
 		  }
@@ -103,7 +102,6 @@ public class ChartPainter {
 		    ImageIO.write(bi, "png",  new File(dest));
 
 		    //ImageIO.write(bi, "PNG",  file);
-		    System.out.println("Pronto!");
 		  } catch (IOException ie) {
 		    ie.printStackTrace();
 		  }
@@ -258,6 +256,8 @@ public class ChartPainter {
       List<ItemDesenhoMapa> lista = new ArrayList<ItemDesenhoMapa>();
       for(PlanetaPosicao pp : mapa.getPosicoesPlanetas()){
 		  if("nor".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
+		  if("asc".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
+		  if("mce".equalsIgnoreCase(pp.getEnumPlaneta().getSigla())) continue;
 
 		  ItemDesenhoMapa item = new ItemDesenhoMapa(pp.getEnumPlaneta().getLetra(), Integer.parseInt(pp.getG()), Integer.parseInt(pp.getGnc()), Integer.parseInt(pp.getM()));		  
 		  lista.add(item);
@@ -265,7 +265,6 @@ public class ChartPainter {
 	  }
       Collections.sort(lista);
       for ( ItemDesenhoMapa item : lista ) {
-    	  System.out.println(item);
     	  Integer grau = item.getGrau360()-mapa.getGrausDefasagemAscendente();
     	  
     	  alternador = !alternador;

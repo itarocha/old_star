@@ -218,6 +218,7 @@ public class MapaBuilder {
 		
 		enumPlaneta = EnumPlaneta.getByCodigo(10);
 		pp = new PlanetaPosicao(enumPlaneta, casas[1]);
+		pp.setCasaDouble(1);
 		mapa.getPosicoesPlanetas().add(pp);
 
 		aspectos_planetas[11] = EnumPlaneta.getByCodigo(11).getCodigo();
@@ -225,6 +226,7 @@ public class MapaBuilder {
 
 		enumPlaneta = EnumPlaneta.getByCodigo(11);
 		pp = new PlanetaPosicao(enumPlaneta, casas[10]);
+		pp.setCasaDouble(10);
 		mapa.getPosicoesPlanetas().add(pp);
 	}
 	
