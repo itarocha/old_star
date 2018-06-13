@@ -14,7 +14,7 @@
 	
 	<div class="row">
 		<div class="row col-md-2" th:each="item: ${lista}" >
-			<div class="panel panel-default" style="margin:2px;">
+			<div class="panel panel-default" style="margin:2px;"  th:classappend="${item.foiConferido} ? fundo-verde : fundo-branco">
 				<!-- 
 			  <div class="panel-heading">
 			    <label th:text="${item.planeta.descricao + ' casa ' + item.casa}"></label>

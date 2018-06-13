@@ -19,8 +19,12 @@ Obesidade grau III: #cc0000
   width: 100%;
 }
 
-.fundo-verde{
-	background-color:#d9ffcc !important;	
+.fundo-verde {
+	background-color:#99ff66 !important;	
+}
+
+.fundo-branco {
+	background-color:#fff !important;	
 }
 
 /* https://www.w3schools.com/colors/colors_picker.asp?colorhex=FFFF00 */

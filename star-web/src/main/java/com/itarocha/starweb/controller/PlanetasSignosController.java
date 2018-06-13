@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itarocha.starweb.model.PlanetaSigno;
+import com.itarocha.starweb.model.TipoLogico;
 import com.itarocha.starweb.model.TipoPlaneta;
 import com.itarocha.starweb.model.TipoSigno;
 import com.itarocha.starweb.repository.PlanetaSignoRepository;
@@ -184,6 +185,10 @@ public class PlanetasSignosController {
 		return Arrays.asList(TipoPlaneta.values());
 	}
 	
+	@ModelAttribute("listaLogico")
+	public List<TipoLogico> listaLogico(){
+		return Arrays.asList(TipoLogico.values());
+	}
 	
 }
 

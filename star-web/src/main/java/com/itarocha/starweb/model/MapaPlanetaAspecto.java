@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity()
 public class MapaPlanetaAspecto {
@@ -20,28 +21,38 @@ public class MapaPlanetaAspecto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull(message="Planeta de Origem é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoPlaneta planetaOrigem;
 
+	@NotNull(message="Planeta Destino é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoPlaneta planetaDestino;
 	
+	@NotNull(message="Tipo de Aspecto é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoAspecto aspecto;
 
+	@NotNull(message="Tipo de Relação é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoRelacao tipoRelacao;
 	
+	@NotNull(message="Conferido é obrigatório")
+	@Enumerated(EnumType.STRING)
+	private TipoLogico conferido;
+
 	@ManyToOne
 	@JoinColumn(name = "id_mestre")
 	private MapaPlanetaAspecto aspectoMestre;
 	
 	@Lob 
 	@Basic(fetch=FetchType.LAZY)
+	//@NotNull(message="Texto é obrigatório") // não é mais obrigatório
 	private String texto;
 	
 	@Transient
 	private String descricaoResumida;
+	
 	
 	public Long getId() {
 		return id;
@@ -99,7 +110,21 @@ public class MapaPlanetaAspecto {
 		this.texto = texto;
 	}
 
+	public TipoLogico getConferido() {
+		return conferido;
+	}
+
+	public void setConferido(TipoLogico conferido) {
+		this.conferido = conferido;
+	}
+
+	@Transient
+	public boolean getFoiConferido() {
+		return TipoLogico.S.equals(this.conferido);
+	}
+	
 	public String getDescricaoResumida() {
 		return String.format("%s %s %s", this.planetaOrigem.getDescricao(), this.getAspecto().getDescricao(), this.planetaDestino.getDescricao()).toUpperCase();
-	}	
+	}
+	
 }

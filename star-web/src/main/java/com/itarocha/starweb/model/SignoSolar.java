@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,7 +22,6 @@ public class SignoSolar {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	//@NotEmpty(message="Signo é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoSigno signo;
 	
@@ -31,6 +32,10 @@ public class SignoSolar {
 	@Lob 
 	@Basic(fetch=FetchType.LAZY)
 	private String texto;
+
+	@NotNull(message="Conferido é obrigatório")
+	@Enumerated(EnumType.STRING)
+	private TipoLogico conferido;
 
 	public Long getId() {
 		return id;
@@ -63,4 +68,18 @@ public class SignoSolar {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
+
+	@Transient
+	public boolean getFoiConferido() {
+		return TipoLogico.S.equals(this.conferido);
+	}
+
+	public TipoLogico getConferido() {
+		return conferido;
+	}
+
+	public void setConferido(TipoLogico conferido) {
+		this.conferido = conferido;
+	}
+	
 }

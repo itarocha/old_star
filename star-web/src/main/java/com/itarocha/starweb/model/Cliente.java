@@ -6,8 +6,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 public class Cliente {
 	
@@ -23,6 +21,8 @@ public class Cliente {
 	private String cidade;
 	
 	private String uf;
+	
+	private TipoLogico tudo;
 
 	public Cliente(){
 	}
@@ -65,6 +65,14 @@ public class Cliente {
 
 	public void setUf(String uf) {
 		this.uf = uf;
+	}
+
+	public TipoLogico getTudo() {
+		return tudo;
+	}
+
+	public void setTudo(TipoLogico tudo) {
+		this.tudo = tudo;
 	}
 
 

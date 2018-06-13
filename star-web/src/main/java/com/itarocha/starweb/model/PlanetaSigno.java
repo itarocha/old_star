@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,6 +33,14 @@ public class PlanetaSigno {
 	@Basic(fetch=FetchType.LAZY)
 	private String texto;
 
+	@NotNull(message="Conferido é obrigatório")
+	@Enumerated(EnumType.STRING)
+	private TipoLogico conferido;
+	
+	@Transient
+	private boolean foiCoferido;
+	
+	
 	public Long getId() {
 		return id;
 	} 
@@ -62,4 +72,17 @@ public class PlanetaSigno {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
+
+	public TipoLogico getConferido() {
+		return conferido;
+	}
+
+	public void setConferido(TipoLogico conferido) {
+		this.conferido = conferido;
+	}
+
+	public boolean getFoiConferido() {
+		return this.conferido.equals(TipoLogico.S);
+	}
+	
 }

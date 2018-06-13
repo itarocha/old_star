@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itarocha.starweb.model.MapaCuspide;
+import com.itarocha.starweb.model.TipoLogico;
 import com.itarocha.starweb.model.TipoSigno;
 import com.itarocha.starweb.repository.MapaCuspideRepository;
 
@@ -179,6 +180,10 @@ public class CuspidesCasasController {
 		return Arrays.asList(TipoSigno.values());
 	}
 	
+	@ModelAttribute("listaLogico")
+	public List<TipoLogico> listaLogico(){
+		return Arrays.asList(TipoLogico.values());
+	}
 }
 
 

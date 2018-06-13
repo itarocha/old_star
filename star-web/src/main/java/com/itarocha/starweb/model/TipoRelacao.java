@@ -14,4 +14,13 @@ public enum TipoRelacao {
 	public String getDescricao() {
 		return this.descricao;
 	}
+	
+	static public boolean isMember(String texto) {
+		TipoRelacao[] valores = TipoRelacao.values();
+		for (TipoRelacao valor : valores)
+			if (valor.name().equals(texto))
+				return true;
+		return false;
+	}
+	
 }

@@ -39,11 +39,20 @@
 				<input type="text" class="form-control" id="cidade" name="cidade" th:field="*{cidade}"></input>
 			</div>
 
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-2">
 				<label for="endereco_cidade">UF:</label>
 				<select class="form-control" id="uf" name="uf" th:field="*{uf}">
 					<option th:each="uf : ${todosUF}" th:value="${uf}" th:text="${uf.descricao}"></option>
 				</select>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-2">
+					<label for="tudo">Imprimir Tudo?</label>
+					<select class="form-control" id="tudo" name="tudo" th:field="*{tudo}">
+						<option th:each="obj : ${listaLogico}" th:value="${obj}" th:text="${obj.descricao}"></option>
+					</select>
+				</div>
 			</div>
 		</div>
 
@@ -58,39 +67,13 @@
 
 
 	<script>
-
 		$(function () {
-
 			$(".nav-pills a").click(function () {
 				$(this).tab('show');
 			});
-
-			var rowCount = $("#horarios tr").length;
-
 			$("#pessoa_nome").focus();
 			$(".formatoData").mask("99/99/9999");
-			//$("#cpf").mask("999.999.999-99");
-			//$("#endereco_cep").mask("99999-999");
 			$(".fmthora").mask("99:99");
-			//$(".horarioid").attr("name","horarios[].id");
-			//$(".fmthora").attr("name","horarios[].horario");
-
-			//$(".horarioid").removeAttr("id");
-			//$(".fmthora:text").removeAttr("id");
-			// https://v4-alpha.getbootstrap.com/components/navs/#fade-effect
-
-			$("#interessadoPg").change(function () {
-				configuraDisplayPg();
-			});
-
-			$("#possuiAcompanhante").change(function () {
-				configuraDisplay();
-			});
-
-			$("#filhosMenores").change(function () {
-				configuraDisplay();
-			});
-
 		});
 	</script>
 

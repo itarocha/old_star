@@ -38,4 +38,13 @@ public enum TipoPlaneta {
 		}
 		return texto;
 	}
+
+	static public boolean isMember(String texto) {
+		TipoPlaneta[] valores = TipoPlaneta.values();
+		for (TipoPlaneta valor : valores)
+			if (valor.name().equals(texto))
+				return true;
+		return false;
+	}
+	
 }

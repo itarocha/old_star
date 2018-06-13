@@ -26,11 +26,11 @@ public class StarMain {
 			System.out.println("Hora de nascimento qualquer formato com ou sem segundos com delimitador \".\" ou \":\" HH:MM OU HH.MM.SS");
 			System.out.println("Cidade de nascimento");
 			System.out.println("UF de nascimento");
-			nome = "Itamar Rocha";
-			data = "29/06/1972";
-			hora = "05:00";
-			cidade = "Caxias";
-			uf = "MA";
+			nome = "Andresa Gonçalves Resende";
+			data = "28/11/1994";
+			hora = "18:00";
+			cidade = "Estrela do Sul";
+			uf = "MG";
 		} else {
 			nome = args[0];
 			data = args[1];

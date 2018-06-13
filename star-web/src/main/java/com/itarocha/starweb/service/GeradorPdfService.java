@@ -40,7 +40,7 @@ public class GeradorPdfService {
 	
     public static final String FONT_ASTRO = "src/main/resources/fonts/AstroDotBasic.ttf";
 	
-	 public List<Interpretacao> createArquivo(MapaService servico, Mapa mapa, String texto) throws IOException {
+	 public List<Interpretacao> createArquivo(boolean isTudo, MapaService servico, Mapa mapa, String texto) throws IOException {
 
 		 List<Interpretacao> retorno = new LinkedList<Interpretacao>();
 		 
@@ -59,8 +59,10 @@ public class GeradorPdfService {
 			 key = "O Signo Solar";
 
 			 if (ss != null) {
-				 map.put(key, ss.getTexto());
-				 retorno.add(this.tratarParagrafos(key, ss.getTexto()));
+				 if (isTudo || (!isTudo && !ss.getFoiConferido()) ) {
+					 map.put(key, ss.getTexto());
+					 retorno.add(this.tratarParagrafos(key, ss.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -70,8 +72,10 @@ public class GeradorPdfService {
 			 ss = servico.findSignoSolar(pp.getEnumSigno().getSigla());
 			 key = String.format("%s", signo);
 			 if (ss != null) {
-				 map.put(key, ss.getTexto());
-				 retorno.add(this.tratarParagrafos(key, ss.getTexto()));
+				 if (isTudo || (!isTudo && !ss.getFoiConferido()) ) {
+					 map.put(key, ss.getTexto());
+					 retorno.add(this.tratarParagrafos(key, ss.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -95,8 +99,10 @@ public class GeradorPdfService {
 			 String planeta = TipoPlaneta.getByString(pp.getEnumPlaneta().getSigla());
 			 key = String.format("%s nos Signos", planeta);
 			 if (ps != null) {
-				 map.put(key, ps.getTexto());
-				 retorno.add(this.tratarParagrafos(key, ps.getTexto()));
+				 if (isTudo || (!isTudo && !ps.getFoiConferido()) ) {
+					 map.put(key, ps.getTexto());
+					 retorno.add(this.tratarParagrafos(key, ps.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -108,8 +114,10 @@ public class GeradorPdfService {
 			 String signo = TipoSigno.getByString(pp.getEnumSigno().getSigla());
 			 key = String.format("%s em %s", planeta, signo);
 			 if (ps != null) {
-				 map.put(key, ps.getTexto());
-				 retorno.add(this.tratarParagrafos(key, ps.getTexto()));
+				 if (isTudo || (!isTudo && !ps.getFoiConferido()) ) {
+					 map.put(key, ps.getTexto());
+					 retorno.add(this.tratarParagrafos(key, ps.getTexto()));
+				 }
 			 } else {
 				 if (!"sol".equalsIgnoreCase( pp.getEnumPlaneta().getSigla() ) ) {
 					 map.put(key, NOT_FOUND);
@@ -139,8 +147,10 @@ public class GeradorPdfService {
 			 key = String.format("Casa %s", c.getNumero());
 			 mc = servico.findCuspide("xx", c.getNumero());
 			 if (mc != null) {
-				 map.put(key, mc.getTexto());
-				 retorno.add(this.tratarParagrafos(key, mc.getTexto()));
+				 if (isTudo || (!isTudo && !mc.getFoiConferido()) ) {
+					 map.put(key, mc.getTexto());
+					 retorno.add(this.tratarParagrafos(key, mc.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -152,8 +162,10 @@ public class GeradorPdfService {
 			 key = String.format("%s na Cúspide da %s Casa", signo, casa);
 			 mc = servico.findCuspide(c.getEnumSigno().getSigla(), c.getNumero());
 			 if (mc != null) {
-				 map.put(key, mc.getTexto());
-				 retorno.add(this.tratarParagrafos(key, mc.getTexto()));
+				 if (isTudo || (!isTudo && !mc.getFoiConferido()) ) {
+					 map.put(key, mc.getTexto());
+					 retorno.add(this.tratarParagrafos(key, mc.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -174,8 +186,10 @@ public class GeradorPdfService {
 			 key = String.format("%s nas Casas", planeta);
 			 PlanetaCasa pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), 0);
 			 if (pc != null) {
-				 map.put(key, pc.getTexto());
-				 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
+				 if (isTudo || (!isTudo && !pc.getFoiConferido()) ) {
+					 map.put(key, pc.getTexto());
+					 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -184,8 +198,10 @@ public class GeradorPdfService {
 			 key = String.format("%s na %s Casa", planeta, casa);
 			 pc = servico.findPlanetaCasa(pp.getEnumPlaneta().getSigla(), pp.getCasa());
 			 if (pc != null) {
-				 map.put(key, pc.getTexto());
-				 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
+				 if (isTudo || (!isTudo && !pc.getFoiConferido()) ) {
+					 map.put(key, pc.getTexto());
+					 retorno.add(this.tratarParagrafos(key, pc.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));
@@ -204,8 +220,10 @@ public class GeradorPdfService {
 			key = String.format("%s em %s com %s", planeta1, aspecto.getNome(), planeta2 );
 			MapaPlanetaAspecto a = servico.findAspecto(pA.getEnumPlaneta().getSigla(), pB.getEnumPlaneta().getSigla(), aspecto.getSigla() );
 			 if (a != null) {
-				 map.put(key, a.getTexto());
-				 retorno.add(this.tratarParagrafos(key, a.getTexto()));
+				 if (isTudo || (!isTudo && !a.getFoiConferido()) ) {
+					 map.put(key, a.getTexto());
+					 retorno.add(this.tratarParagrafos(key, a.getTexto()));
+				 }
 			 } else {
 				 map.put(key, NOT_FOUND);
 				 retorno.add(this.tratarParagrafos(key, NOT_FOUND));

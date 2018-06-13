@@ -48,15 +48,9 @@ public class StarWebApplication {
 		public void addViewControllers(ViewControllerRegistry registry) {
 			registry.addRedirectViewController("/", "/mapa/new");
 		}
-		
-	    @Override
-	    public void addCorsMappings(CorsRegistry registry) {
-	    	registry.addMapping("/**")
-            	.allowedOrigins("*")
-            	.allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS","HEAD", "TRACE", "CONNECT")
-            	.allowedHeaders("X-Requested-With,Content-Type,Accept,Origin");	    }	
-	}
 	
+	}
+		
 	//@PostConstruct
 	private void testar() {
 		SignoSolar ss = svc.findSignoSolar("ca");

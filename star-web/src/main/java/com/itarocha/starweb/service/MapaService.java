@@ -80,7 +80,7 @@ public class MapaService {
 		TipoPlaneta tpd = getTipoPlaneta(planetaDestino);
 		TipoAspecto ta = getTipoAspecto(aspecto);
 		Query q = em.createQuery("SELECT a FROM MapaPlanetaAspecto a "
-								+ "where ((a.planetaOrigem = :PO AND a.planetaDestino = :PD) "
+								+ "WHERE ((a.planetaOrigem = :PO AND a.planetaDestino = :PD) "
 								+ "OR (a.planetaOrigem = :PD AND a.planetaDestino = :PO)) "
 								+ "AND a.aspecto = :ASP")
 					.setParameter("PO", tpo)

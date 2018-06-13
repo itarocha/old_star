@@ -44,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itarocha.starweb.model.Cliente;
 import com.itarocha.starweb.model.Interpretacao;
+import com.itarocha.starweb.model.TipoLogico;
 import com.itarocha.starweb.model.UnidadeFederacao;
 import com.itarocha.starweb.service.GeradorPdfService;
 import com.itarocha.starweb.service.MapaService;
@@ -192,7 +193,7 @@ public class MapaController {
 			
 			try {
 				GeradorPdfService g = new GeradorPdfService();
-				retorno =  g.createArquivo(servico, mapa, json);
+				retorno =  g.createArquivo(TipoLogico.S.equals(model.getTudo()), servico, mapa, json);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -277,6 +278,10 @@ public class MapaController {
 		return Arrays.asList(UnidadeFederacao.values());
 	}
 	
+	@ModelAttribute("listaLogico")
+	public List<TipoLogico> listaLogico(){
+		return Arrays.asList(TipoLogico.values());
+	}
 	
 }
 

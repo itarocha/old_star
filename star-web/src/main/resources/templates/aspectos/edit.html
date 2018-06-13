@@ -16,34 +16,31 @@
 		<input type="hidden" th:field="*{id}"></input>
 
 		<div class="row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-2">
 				<label for="planetaOrigem">Planeta Origem:</label>
 				<select class="form-control" id="planetaOrigem" name="planetaOrigem" th:field="*{planetaOrigem}">
 					<option th:each="obj : ${listaPlanetas}" th:value="${obj}" th:text="${obj.descricao}"></option>
 				</select>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-2">
 				<label for="aspecto">Aspecto:</label>
 				<select class="form-control" id="aspecto" name="aspecto" th:field="*{aspecto}">
 					<option th:each="a : ${listaAspectos}" th:value="${a}" th:text="${a.descricao}"></option>
 				</select>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-2">
 				<label for="planetaDestino">Planeta Destino:</label>
 				<select class="form-control" id="planetaDestino" name="planetaDestino" th:field="*{planetaDestino}">
 					<option th:each="obj : ${listaPlanetas}" th:value="${obj}" th:text="${obj.descricao}"></option>
 				</select>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-2">
 				<label for="tipoRelacao">Tipo Aspecto:</label>
 				<select class="form-control" id="tipoRelacao" name="tipoRelacao" th:field="*{tipoRelacao}">
 					<option th:each="obj : ${listaRelacoes}" th:value="${obj}" th:text="${obj.descricao}"></option>
 				</select>
 			</div>
-			<div class="form-group col-md-8 divAspectoMestre">
+			<div class="form-group col-md-4 divAspectoMestre">
 				<label for="aspectoMestre">Mestre:</label>
 				<select class="form-control" id="aspectoMestre" name="aspectoMestre" th:field="*{aspectoMestre}">
 					<option th:each="s : ${listaMaster}" th:value="${s.id}" th:text="${s.descricaoResumida}"></option>
@@ -55,6 +52,15 @@
 			<div class="form-group col-md-12 divTexto">
 				<label for="texto">Texto:</label>
 				<textarea class="form-control" rows="10" id="texto" name="texto" th:field="*{texto}"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-md-2">
+				<label for="conferido">Conferido?</label>
+				<select class="form-control" id="conferido" name="conferido" th:field="*{conferido}">
+					<option th:each="obj : ${listaLogico}" th:value="${obj}" th:text="${obj.descricao}"></option>
+				</select>
 			</div>
 		</div>
 

@@ -25,7 +25,7 @@
 			<tbody>
 				<tr th:each="item: ${lista}">
 					<td class="text-center com-md-1" th:text="${item.id}">#</td>
-					<td th:text="${item.signo.descricao}"></td>
+					<td th:text="${item.signo.descricao}" th:classappend="${item.foiConferido} ? fundo-verde"></td>
 					<td class="text-center">
 						<a class="btn btn-link btn-xs" th:href="@{/solares/edit/{id}(id=${item.id})}"
 							title="Editar" rel="tooltip" data-placement="top">
